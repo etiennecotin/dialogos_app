@@ -1,0 +1,17 @@
+body {
+  background-color: $lightBlack;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+
+// text
+.text {
+  &-bold {
+    font-weight: bold;
+  }
+}
+
+

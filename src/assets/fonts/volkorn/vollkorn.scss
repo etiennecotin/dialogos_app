@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'Vollkorn';
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Black.ttf?v=4.6.3');
+    src: local('Vollkorn Black'), local('Vollkorn-Black'),
+    url('~@/assets/fonts/volkorn/Vollkorn-Black.ttf?v=4.6.3') format('truetype');
+    font-display: swap;
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vollkorn';
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Bold.ttf?v=4.6.3');
+    src: local('Vollkorn Bold'), local('Vollkorn-Bold'),
+    url('~@/assets/fonts/volkorn/Vollkorn-Bold.ttf?v=4.6.3') format('truetype');
+    font-display: swap;
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vollkorn';
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Semibold.ttf?v=4.6.3');
+    src: local('Vollkorn Semibold'), local('Vollkorn-Semibold'),
+    url('~@/assets/fonts/volkorn/Vollkorn-Semibold.ttf?v=4.6.3') format('truetype');
+    font-display: swap;
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vollkorn';
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Regular.ttf?v=4.6.3');
+    src: local('Vollkorn Regular'), local('Vollkorn-Regular'),
+    url('~@/assets/fonts/volkorn/Vollkorn-Regular.ttf?v=4.6.3') format('truetype');
+    font-display: swap;
+    font-weight: 500;
+    font-style: normal;
+}

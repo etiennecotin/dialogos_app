@@ -1,20 +1,46 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <AppHeader v-if="isLogged" />
     <router-view />
   </div>
 </template>
 
+<script>
+// @ is an alias to /src
+import AppHeader from "@/components/generic/header/index";
+import { mapGetters } from "vuex";
+
+export default {
+  name: "mainApp",
+  components: {
+    AppHeader
+  },
+  computed: {
+    ...mapGetters(["isLogged"])
+  },
+  async created() {
+    try {
+      const response = await this.$store.dispatch("checkUserLogged");
+      // console.log(response);
+      if (response) {
+        this.$router.push({ name: "home" });
+      }
+      // eslint-disable-next-line no-empty
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
+</script>
+
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: $sans-serif-font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $white;
+  height: 100vh;
 }
 
 #nav {
