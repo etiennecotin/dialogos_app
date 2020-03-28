@@ -38,7 +38,7 @@ export default {
           this.$router.push({ name: "register" });
         }
       } catch (e) {
-        console.log(e.message);
+        // console.log(e.message);
       }
     }
   }

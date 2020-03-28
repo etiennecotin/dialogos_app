@@ -36,7 +36,7 @@ export default {
         await this.$store.dispatch("login", this.password);
         this.$router.push({ name: "home" });
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   }
