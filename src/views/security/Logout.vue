@@ -12,7 +12,7 @@ export default {
       this.$store.dispatch("signOutAction");
       this.$router.push({ name: "login" });
     } catch (e) {
-      console.log("Fail logout");
+      // console.log("Fail logout");
       this.$router.push({ name: "home" });
     }
   }

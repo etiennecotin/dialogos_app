@@ -26,7 +26,7 @@ const actions = {
     return response.length > 0;
   },
   async login({ commit, state }, paswword) {
-    console.log(state, commit, paswword);
+    // console.log(state, commit, paswword);
     const response = await firebase
       .auth()
       .signInWithEmailAndPassword(state.loginForm.email, paswword);
@@ -54,8 +54,7 @@ const actions = {
   },
   signOutAction({ commit }) {
     const response = firebase.auth().signOut();
-    console.log(response);
-    commit(LOGOUT);
+    if (response) commit(LOGOUT);
   },
   // set constants to store from api
   checkUserLogged({ commit }) {

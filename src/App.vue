@@ -27,7 +27,7 @@ export default {
       }
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 };

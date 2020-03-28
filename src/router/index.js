@@ -67,6 +67,7 @@ const router = new VueRouter({
 });
 
 // TODO ajouter sauvegarde de la route quand la personne n'est plus connectée
+// TODO ajouter en local storage la session et checker à l'ouverture (éviter le problème d'affichage du login)
 router.beforeEach((to, from, next) => {
   const isLogged = store.getters.isLogged;
   if (to.matched.some(record => record.meta.requiresAuth)) {
