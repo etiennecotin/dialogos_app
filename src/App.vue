@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <AppHeader v-if="isLogged" />
-    <router-view />
+    <router-view v-show="isAppReady" />
   </div>
 </template>
 
@@ -16,16 +16,15 @@ export default {
     AppHeader
   },
   computed: {
-    ...mapGetters(["isLogged"])
+    ...mapGetters(["isLogged", "isAppReady"])
   },
   async created() {
     try {
       const response = await this.$store.dispatch("checkUserLogged");
-      // console.log(response);
+      await this.$store.dispatch("setAppReady");
       if (response) {
         this.$router.push({ name: "home" });
       }
-      // eslint-disable-next-line no-empty
     } catch (e) {
       // console.log(e);
     }

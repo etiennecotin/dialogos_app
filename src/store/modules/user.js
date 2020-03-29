@@ -62,6 +62,7 @@ const actions = {
       firebase.auth().onAuthStateChanged(
         async user => {
           if (user) {
+            await commit("SET_LOGGED");
             const userInfo = await firebase
               .firestore()
               .collection("user/")
@@ -87,8 +88,11 @@ const mutations = {
   [SET_FORM_EMAIL](state, params) {
     state.loginForm.email = params.email;
   },
-  [SET_USER_DATA](state, params) {
+  SET_LOGGED(state) {
     state.logged = true;
+  },
+  [SET_USER_DATA](state, params) {
+    // state.logged = true;
     state.userInfo = params;
   },
   [LOGOUT](state) {
