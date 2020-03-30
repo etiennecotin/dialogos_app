@@ -9,9 +9,6 @@
         <HomeIcon />
       </router-link>
       <div class="point"></div>
-      <router-link to="prout" class="nav-link">
-        <CalendarIcon />
-      </router-link>
       <router-link :to="{ name: 'calendar' }" class="nav-link">
         <CalendarIcon />
       </router-link>
