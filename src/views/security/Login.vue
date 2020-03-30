@@ -1,11 +1,12 @@
 <template>
   <div class="container">
     <H1 class="app-title">Dialogos</H1>
-    <p class="text-bold">Inscription et connexion</p>
 
     <InputText
       :type="'email'"
       :placeholder="'Email'"
+      :fieldId="'email'"
+      :textLabel="'Inscription et connexion'"
       @inputValue="value => (email = value)"
     />
 

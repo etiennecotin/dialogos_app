@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <H1 class="app-title">Dialogos</H1>
-    <p class="text-bold">Inscription</p>
-
     <InputText
       :type="'password'"
       :placeholder="'Password'"
+      :fieldId="'password'"
+      :textLabel="'Inscription'"
       @inputValue="value => (password = value)"
     />
     <p>Mot de passe oublié ?</p>

@@ -1,6 +1,6 @@
 <template>
   <div class="solid-button">
-    <button>
+    <button role="button" aria-label="next">
       <ArrowIcon />
     </button>
   </div>

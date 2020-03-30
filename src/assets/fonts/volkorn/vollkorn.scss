@@ -1,39 +1,43 @@
 @font-face {
     font-family: 'Vollkorn';
-    src: url('~@/assets/fonts/volkorn/Vollkorn-Black.ttf?v=4.6.3');
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Black.woff2');
     src: local('Vollkorn Black'), local('Vollkorn-Black'),
-    url('~@/assets/fonts/volkorn/Vollkorn-Black.ttf?v=4.6.3') format('truetype');
+    url('~@/assets/fonts/volkorn/Vollkorn-Black.woff') format('truetype');
     font-display: swap;
     font-weight: 900;
     font-style: normal;
+    unicode-range: U+000-5FF; /* Latin glyphs */
 }
 
 @font-face {
     font-family: 'Vollkorn';
-    src: url('~@/assets/fonts/volkorn/Vollkorn-Bold.ttf?v=4.6.3');
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Bold.woff2');
     src: local('Vollkorn Bold'), local('Vollkorn-Bold'),
-    url('~@/assets/fonts/volkorn/Vollkorn-Bold.ttf?v=4.6.3') format('truetype');
+    url('~@/assets/fonts/volkorn/Vollkorn-Bold.woff') format('truetype');
     font-display: swap;
     font-weight: 800;
     font-style: normal;
+    unicode-range: U+000-5FF; /* Latin glyphs */
 }
 
 @font-face {
     font-family: 'Vollkorn';
-    src: url('~@/assets/fonts/volkorn/Vollkorn-Semibold.ttf?v=4.6.3');
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Semibold.woff2');
     src: local('Vollkorn Semibold'), local('Vollkorn-Semibold'),
-    url('~@/assets/fonts/volkorn/Vollkorn-Semibold.ttf?v=4.6.3') format('truetype');
+    url('~@/assets/fonts/volkorn/Vollkorn-Semibold.woff') format('truetype');
     font-display: swap;
     font-weight: 600;
     font-style: normal;
+    unicode-range: U+000-5FF; /* Latin glyphs */
 }
 
 @font-face {
     font-family: 'Vollkorn';
-    src: url('~@/assets/fonts/volkorn/Vollkorn-Regular.ttf?v=4.6.3');
+    src: url('~@/assets/fonts/volkorn/Vollkorn-Regular.woff2');
     src: local('Vollkorn Regular'), local('Vollkorn-Regular'),
-    url('~@/assets/fonts/volkorn/Vollkorn-Regular.ttf?v=4.6.3') format('truetype');
+    url('~@/assets/fonts/volkorn/Vollkorn-Regular.woff') format('truetype');
     font-display: swap;
     font-weight: 500;
     font-style: normal;
+    unicode-range: U+000-5FF; /* Latin glyphs */
 }

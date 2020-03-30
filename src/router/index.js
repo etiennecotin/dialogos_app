@@ -1,16 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Register from "../views/security/Register.vue";
-import Login from "../views/security/Login.vue";
-import LoginPassword from "../views/security/LoginPassword.vue";
-import Logout from "../views/security/Logout";
 import store from "../store";
-import Calendar from "../views/Calendar";
-import Search from "../views/Search";
-import Profil from "../views/Profil";
 import firebase from "firebase";
-import Debate from "../views/Debate";
 
 Vue.use(VueRouter);
 
@@ -22,13 +13,13 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home,
+    component: lazyLoad('Home'),
     meta: { requiresAuth: true }
   },
   {
     path: "/debate/:uid",
     name: "debat",
-    component: Debate,
+    component: lazyLoad('Debate'),
     meta: {
       pageTitle: "Non reconnu",
       requiresAuth: true
@@ -38,7 +29,7 @@ const routes = [
   {
     path: "/calendar",
     name: "calendar",
-    component: Calendar,
+    component: lazyLoad('Calendar'),
     meta: {
       pageTitle: "Calendrier",
       requiresAuth: true
@@ -47,7 +38,7 @@ const routes = [
   {
     path: "/search",
     name: "search",
-    component: Search,
+    component: lazyLoad('Search'),
     meta: {
       pageTitle: "Recherche",
       requiresAuth: true
@@ -56,7 +47,7 @@ const routes = [
   {
     path: "/profil",
     name: "profil",
-    component: Profil,
+    component: lazyLoad('Profil'),
     meta: {
       pageTitle: "Mon profil",
       requiresAuth: true
@@ -65,7 +56,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: Login,
+    component: lazyLoad('security/Login'),
     meta: {
       anonymous: false
     }
@@ -73,7 +64,7 @@ const routes = [
   {
     path: "/login/password",
     name: "loginPaswword",
-    component: LoginPassword,
+    component: lazyLoad('security/LoginPassword'),
     meta: {
       requiresAuth: false
     }
@@ -81,7 +72,7 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: Register,
+    component: lazyLoad('security/Register'),
     meta: {
       requiresAuth: false
     }
@@ -92,7 +83,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: Logout,
+    component: lazyLoad('security/Logout'),
     meta: { requiresAuth: true }
   },
   {
