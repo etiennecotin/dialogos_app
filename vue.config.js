@@ -1,7 +1,15 @@
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   configureWebpack: {
+    plugins: [
+      new CompressionPlugin({
+        filename: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.(js|css)$/
+      })
+    ],
     optimization: {
       splitChunks: {
         minSize: 10000,
