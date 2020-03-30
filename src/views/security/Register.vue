@@ -50,7 +50,7 @@ export default {
         this.$router.push({ name: "home" });
       } catch (e) {
         //  TODO gérer les erreurs et supprimer le suser si ça n'a pas fonctionné
-        console.log(e.message);
+        // console.log(e.message);
       }
     }
   }

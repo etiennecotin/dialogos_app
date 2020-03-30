@@ -8,7 +8,7 @@
 export default {
   name: "PageNotFound",
   created() {
-      console.log('hello')
+      // console.log('hello')
   }
 };
 </script>
