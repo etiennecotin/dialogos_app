@@ -1,11 +1,12 @@
 <template>
   <div class="container">
     <H1 class="app-title">Dialogos</H1>
-    <p class="text-bold">Connexion à votre compte</p>
 
     <InputText
       :type="'password'"
       :placeholder="'Mot de passe'"
+      :fieldId="'password'"
+      :textLabel="'Connexion à votre compte'"
       @inputValue="value => (password = value)"
     />
 

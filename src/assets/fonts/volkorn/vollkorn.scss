@@ -1,8 +1,8 @@
 @font-face {
     font-family: 'Vollkorn';
     src: local('Vollkorn Black'),
-        url('~@/assets/fonts/volkorn/Vollkorn-Black.woff2') format('truetype2'),
-        url('~@/assets/fonts/volkorn/Vollkorn-Black.woff') format('truetype');
+        url('~@/assets/fonts/volkorn/Vollkorn-Black.woff2') format('woff2'),
+        url('~@/assets/fonts/volkorn/Vollkorn-Black.woff') format('woff');
     font-display: swap;
     font-weight: 900;
     font-style: normal;
