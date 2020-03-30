@@ -11,8 +11,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Light.woff2');
     src: local('Helvetica Now Display Light'), local('HelveticaNowDisplay-Light'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Light.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
@@ -66,8 +66,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtLt.woff2');
     src: local('Helvetica Now Display ExtLt'), local('HelveticaNowDisplay-ExtLt'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtLt.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtLt.woff') format('woff');
     font-weight: 300;
     font-style: normal;
@@ -77,8 +77,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtBlk.woff2');
     src: local('Helvetica Now Display ExtBlk'), local('HelveticaNowDisplay-ExtBlk'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtBlk.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtBlk.woff') format('woff');
     font-weight: normal;
     font-style: normal;
@@ -88,8 +88,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Bold.woff2');
     src: local('Helvetica Now Display Bold'), local('HelveticaNowDisplay-Bold'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Bold.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
@@ -110,8 +110,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Regular.woff2');
     src: local('Helvetica Now Display Regular'), local('HelveticaNowDisplay-Regular'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Regular.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
@@ -132,8 +132,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Thin.woff2');
     src: local('Helvetica Now Display Thin'), local('HelveticaNowDisplay-Thin'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Thin.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Thin.woff') format('woff');
     font-weight: 100;
     font-style: normal;
@@ -154,8 +154,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtraBold.woff2');
     src: local('Helvetica Now Display ExtBd'), local('HelveticaNowDisplay-ExtraBold'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtraBold.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-ExtraBold.woff') format('woff');
     font-weight: 800;
     font-style: normal;
@@ -165,8 +165,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Medium.woff2');
     src: local('Helvetica Now Display Medium'), local('HelveticaNowDisplay-Medium'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Medium.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
@@ -198,8 +198,8 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Black.woff2');
     src: local('Helvetica Now Display Black'), local('HelveticaNowDisplay-Black'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Black.woff2') format('woff2'),
         url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Black.woff') format('woff');
     font-weight: 900;
     font-style: normal;
@@ -209,9 +209,9 @@
 
 @font-face {
     font-family: 'Helvetica Now Display';
-    src: url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Hairline.woff2');
     src: local('Helvetica Now Display Hairline'), local('HelveticaNowDisplay-Hairline'),
-        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Hairline.woff2') format('woff2');
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Hairline.woff2') format('woff2'),
+        url('~@/assets/fonts/helvetica/HelveticaNowDisplay-Hairline.woff') format('woff');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
