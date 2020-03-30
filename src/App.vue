@@ -9,6 +9,7 @@
 // @ is an alias to /src
 import AppHeader from "@/components/generic/header/index";
 import { mapGetters } from "vuex";
+// import shortId from "shortid";
 
 export default {
   name: "mainApp",
@@ -19,14 +20,17 @@ export default {
     ...mapGetters(["isLogged", "isAppReady"])
   },
   async created() {
-    try {
-      const response = await this.$store.dispatch("checkUserLogged");
-      await this.$store.dispatch("setAppReady");
-      if (response) {
-        this.$router.push({ name: "home" });
+      // console.log(shortId.generate());
+    if (!this.isAppReady) {
+      try {
+        await this.$store.dispatch("checkUserLogged");
+        await this.$store.dispatch("setAppReady");
+        // if (response) {
+        //   this.$router.push({ name: "home" });
+        // }
+      } catch (e) {
+        // console.log(e);
       }
-    } catch (e) {
-      // console.log(e);
     }
   }
 };

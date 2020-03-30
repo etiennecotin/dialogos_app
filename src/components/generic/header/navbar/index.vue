@@ -9,12 +9,15 @@
         <HomeIcon />
       </router-link>
       <div class="point"></div>
-      <router-link to="/" class="nav-link">
-        <SearchIcon />
+      <router-link to="prout" class="nav-link">
+        <CalendarIcon />
+      </router-link>
+      <router-link :to="{ name: 'calendar' }" class="nav-link">
+        <CalendarIcon />
       </router-link>
       <div class="point"></div>
-      <router-link to="/" class="nav-link">
-        <CalendarIcon />
+      <router-link :to="{ name: 'search' }" class="nav-link">
+        <SearchIcon />
       </router-link>
     </div>
     <div class="bottom">

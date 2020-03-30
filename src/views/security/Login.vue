@@ -38,6 +38,7 @@ export default {
           this.$router.push({ name: "register" });
         }
       } catch (e) {
+        //  TODO gérer les erreurs
         // console.log(e.message);
       }
     }

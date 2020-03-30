@@ -32,25 +32,30 @@ const actions = {
       .signInWithEmailAndPassword(state.loginForm.email, paswword);
     const user = await firebase
       .firestore()
-      .collection("user/")
+      .collection("users/")
       .doc(response.user.uid)
       .get();
     let userData = user.data();
     userData.email = state.loginForm.email;
     commit(SET_USER_DATA, userData);
   },
-  registerUser() {
-    // eslint-disable-next-line no-undef
-    // auth
-    //   .createUserWithEmailAndPassword(this.email, this.password)
-    //   .then(response => {
-    //     alert("success");
-    //     console.log(response);
-    //   })
-    //   .catch(error => {
-    //     alert("failure");
-    //     console.log(error);
-    //   });
+  async registerUser({ commit, state }, userData) {
+    const userInfos = {
+      ...{ firstName: "etienne", lastName: "cotin" },
+      ...userData
+    };
+    const response = await firebase
+      .auth()
+      .createUserWithEmailAndPassword(
+        state.loginForm.email,
+        userInfos.password
+      );
+    await firebase
+      .firestore()
+      .collection("users/")
+      .doc(response.user.uid)
+      .set(userInfos);
+    commit(SET_USER_DATA, userInfos);
   },
   signOutAction({ commit }) {
     const response = firebase.auth().signOut();
@@ -58,28 +63,24 @@ const actions = {
   },
   // set constants to store from api
   checkUserLogged({ commit }) {
-    return new Promise((resolve, reject) => {
-      firebase.auth().onAuthStateChanged(
-        async user => {
-          if (user) {
-            await commit("SET_LOGGED");
-            const userInfo = await firebase
-              .firestore()
-              .collection("user/")
-              .doc(user.uid)
-              .get();
-            let userData = userInfo.data();
-            userData.email = state.loginForm.email;
-            commit(SET_USER_DATA, userData);
-            resolve(true);
-          }
-          resolve(false);
-        },
-        () => {
-          reject();
+    firebase.auth().onAuthStateChanged(
+      async user => {
+        if (user) {
+          await commit("SET_LOGGED");
+          const userInfo = await firebase
+            .firestore()
+            .collection("users/")
+            .doc(user.uid)
+            .get();
+          let userData = userInfo.data();
+          userData.email = user.email;
+          commit(SET_USER_DATA, userData);
         }
-      );
-    });
+      },
+      () => {
+      //  TOTO ajouter un retour erreur
+      }
+    );
   }
 };
 
