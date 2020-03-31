@@ -68,7 +68,7 @@ export default {
     },
     checkClose() {
       //  Use for reduce height to scroll for close informations
-      const reduceFactor = 0.95;
+      const reduceFactor = 1.2;
       const elementMaxY =
         (this.appElement.offsetHeight / 3 - 80 / 2) * reduceFactor;
       const elementPosition = this.$refs.slider.getBoundingClientRect();
