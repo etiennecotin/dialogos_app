@@ -1,10 +1,7 @@
 <template>
-  <div
-    id="debateInformations"
-    :class="{ open: showInformation }"
-    ref="slider"
-  >
+  <div id="debateInformations" :class="{ open: showInformation }" ref="slider">
     <moreInformations
+      :open="showInformation"
       @showInformations="value => (deployInformations = value)"
     />
     <informations />
@@ -27,7 +24,9 @@ export default {
     return {
       deployInformations: false,
       isActiveDraggable: false,
-      draggable: null
+      draggable: null,
+      appElement: null,
+      dynamicClose: false
     };
   },
   computed: {
@@ -36,30 +35,47 @@ export default {
     }
   },
   mounted: function() {
+    this.initData();
     this.initDraggable();
   },
   methods: {
+    initData() {
+      this.appElement = document.getElementById("app");
+    },
     initDraggable() {
       gsap.registerPlugin(Draggable);
       const { slider } = this.$refs;
       this.draggable = Draggable.create(slider, {
         type: "y",
-        edgeResistance: 0.9,
+        edgeResistance: 0.8,
         inertia: true,
         lockAxis: true,
         throwProps: true,
-        throwResistance: 4000,
+        throwResistance: 1000,
+        dragClickables: true,
         allowNativeTouchScrolling: false,
-        // onMove: this.updateActiveIndex,
-        // onThrowUpdate: this.updateActiveIndex,
-        bounds: { minY: (document.getElementById("app").offsetHeight-document.getElementById("debateInformations").offsetHeight), maxY: (document.getElementById("app").offsetHeight/3) - 80 },
-        // onPress: val => {
-        //   return val;
-        // }
+        onMove: () => {
+          this.checkClose();
+        },
+        bounds: {
+          minY: this.appElement.offsetHeight - slider.offsetHeight,
+          maxY: this.appElement.offsetHeight / 3 - 80 / 2
+        }
       });
       this.draggable[0].disable();
-      this.$refs.slider.removeAttribute("style");
+      slider.removeAttribute("style");
       this.isActiveDraggable = false;
+    },
+    checkClose() {
+      //  Use for reduce height to scroll for close informations
+      const reduceFactor = 0.95;
+      const elementMaxY =
+        (this.appElement.offsetHeight / 3 - 80 / 2) * reduceFactor;
+      const elementPosition = this.$refs.slider.getBoundingClientRect();
+
+      if (!this.dynamicClose && elementPosition.top > elementMaxY) {
+        this.dynamicClose = true;
+      }
     }
   },
   watch: {
@@ -71,6 +87,16 @@ export default {
         this.draggable[0].disable();
         this.$refs.slider.removeAttribute("style");
         this.isActiveDraggable = false;
+      }
+    },
+    // use for close informations on drag bottom
+    dynamicClose(val) {
+      if (val) {
+        this.draggable[0].disable();
+        this.$refs.slider.removeAttribute("style");
+        this.isActiveDraggable = false;
+        this.dynamicClose = false;
+        this.deployInformations = false;
       }
     }
   }

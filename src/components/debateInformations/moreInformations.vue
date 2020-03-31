@@ -1,7 +1,7 @@
 <template>
   <div id="buttonInformations" @click="showInformations">
     <p>Informations du débat</p>
-    <div class="simpleArrow" :class="{ rotate: isOpen }">
+    <div class="simpleArrow" :class="{ rotate: rotateArrow }">
       <simpleArrow />
     </div>
   </div>
@@ -15,6 +15,16 @@ export default {
   components: {
     simpleArrow
   },
+  props: {
+    open: {
+      default: false
+    }
+  },
+  computed: {
+    rotateArrow() {
+      return this.isOpen && this.open;
+    }
+  },
   data() {
     return {
       isOpen: false
@@ -24,6 +34,11 @@ export default {
     showInformations() {
       this.isOpen = !this.isOpen;
       this.$emit("showInformations", this.isOpen);
+    }
+  },
+  watch: {
+    open(val) {
+      this.isOpen = val;
     }
   }
 };
