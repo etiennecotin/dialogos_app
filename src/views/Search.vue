@@ -5,11 +5,11 @@
 </template>
 
 <script>
-    export default {
-        name: "Search"
-    }
+import { initHeaderFromRouteParams } from "@/mixins/setHeader";
+export default {
+  name: "Search",
+  mixins: [initHeaderFromRouteParams]
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

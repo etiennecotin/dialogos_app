@@ -5,11 +5,11 @@
 </template>
 
 <script>
-    export default {
-        name: "Profil"
-    }
+import { initHeaderFromRouteParams } from "@/mixins/setHeader";
+export default {
+  name: "Profil",
+  mixins: [initHeaderFromRouteParams]
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

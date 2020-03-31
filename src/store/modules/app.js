@@ -1,27 +1,27 @@
-import { SET_APP_READY } from "../mutation-types";
+import { SET_APP_READY, SET_HEADER_NAME } from "../mutation-types";
 
 const state = {
   appReady: false,
   retry: false,
-  selectedPoint: null,
-  indexToScroll: null,
-  arianeLine: {
-    show: false,
-    name: "Ma tournée",
-    infos: null,
-    textColor: null
+  header: {
+    default: true,
+    name: "Dialogos"
   }
 };
 
 // getters
 const getters = {
-  isAppReady: state => state.appReady
+  isAppReady: state => state.appReady,
+  header: state => state.header
 };
 // actions
 const actions = {
   // set constants to store from api
   setAppReady({ commit }) {
     commit(SET_APP_READY);
+  },
+  setHeader({ commit }, headerParams) {
+    commit(SET_HEADER_NAME, headerParams);
   }
   // init({ commit }) {
   // fetch('http://192.168.1.14:8181/const/consts.json')
@@ -49,6 +49,10 @@ const actions = {
 const mutations = {
   [SET_APP_READY](state) {
     state.appReady = true;
+  },
+  [SET_HEADER_NAME](state, headerParams) {
+    state.header.default = headerParams.default;
+    state.header.name = headerParams.name;
   }
   // [types.INITIALIZE_STORE](state, params) {
   //   /** @namespace params.NVHISTDATA */

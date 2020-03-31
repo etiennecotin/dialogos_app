@@ -5,3 +5,7 @@ export const LOGOUT = "LOGOUT";
 
 // main app
 export const SET_APP_READY = "SET_APP_READY";
+export const SET_HEADER_NAME = "SET_HEADER_NAME";
+
+// debate section
+export const SET_DEBATE = "SET_DEBATE";

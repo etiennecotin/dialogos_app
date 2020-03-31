@@ -14,14 +14,16 @@ const routes = [
     path: "/",
     name: "home",
     component: lazyLoad('Home'),
-    meta: { requiresAuth: true }
+    meta: {
+      pageTitle: "Dialogos",
+      requiresAuth: true
+    }
   },
   {
     path: "/debate/:uid",
-    name: "debat",
+    name: "debate",
     component: lazyLoad('Debate'),
     meta: {
-      pageTitle: "Non reconnu",
       requiresAuth: true
     },
     props: route => ({ debateId: route.params.uid })

@@ -44,6 +44,9 @@ export default {
   text-align: center;
   color: $white;
   height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
 #nav {

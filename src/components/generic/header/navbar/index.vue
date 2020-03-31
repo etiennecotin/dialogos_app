@@ -60,6 +60,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 100;
   &.open {
     transform: translateX(0%);
   }

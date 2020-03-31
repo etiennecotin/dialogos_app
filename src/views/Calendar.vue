@@ -5,11 +5,11 @@
 </template>
 
 <script>
-    export default {
-        name: "Calendar"
-    }
+import { initHeaderFromRouteParams } from "@/mixins/setHeader";
+export default {
+  name: "Calendar",
+  mixins: [initHeaderFromRouteParams]
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
