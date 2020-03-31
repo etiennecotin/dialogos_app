@@ -22,7 +22,7 @@ export default {
       const debateName = await this.$store.dispatch("getDebate", this.debateId);
       this.setHeader(debateName, false);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   },
   computed: {

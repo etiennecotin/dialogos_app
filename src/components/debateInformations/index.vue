@@ -55,7 +55,7 @@ export default {
         // bounds: {maxY: 650}
         bounds: { maxY: (document.getElementById("app").offsetHeight/3) - 80 },
         onPress: val => {
-          console.log(val);
+          return val;
         }
       });
       this.draggable[0].disable();
