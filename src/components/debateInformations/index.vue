@@ -44,19 +44,18 @@ export default {
       const { slider } = this.$refs;
       this.draggable = Draggable.create(slider, {
         type: "y",
-        edgeResistance: 0.7,
+        edgeResistance: 0.9,
         inertia: true,
         lockAxis: true,
         throwProps: true,
-        throwResistance: 1000,
-        allowNativeTouchScrolling: true,
-        onMove: this.updateActiveIndex,
-        onThrowUpdate: this.updateActiveIndex,
-        // bounds: {maxY: 650}
-        bounds: { maxY: (document.getElementById("app").offsetHeight/3) - 80 },
-        onPress: val => {
-          return val;
-        }
+        throwResistance: 4000,
+        allowNativeTouchScrolling: false,
+        // onMove: this.updateActiveIndex,
+        // onThrowUpdate: this.updateActiveIndex,
+        bounds: { minY: (document.getElementById("app").offsetHeight-document.getElementById("debateInformations").offsetHeight), maxY: (document.getElementById("app").offsetHeight/3) - 80 },
+        // onPress: val => {
+        //   return val;
+        // }
       });
       this.draggable[0].disable();
       this.$refs.slider.removeAttribute("style");
@@ -82,7 +81,7 @@ export default {
 #debateInformations {
   background-color: $lightBlack;
   z-index: 50;
-  height: 100%;
+  /*height: 100%;*/
   position: absolute;
   bottom: 0;
   width: 100%;
