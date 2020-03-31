@@ -47,11 +47,11 @@ export default {
       const { slider } = this.$refs;
       this.draggable = Draggable.create(slider, {
         type: "y",
-        edgeResistance: 0.8,
+        edgeResistance: 0.7,
         inertia: true,
         lockAxis: true,
         throwProps: true,
-        throwResistance: 1000,
+        throwResistance: 10,
         dragClickables: true,
         allowNativeTouchScrolling: false,
         onMove: () => {
@@ -68,7 +68,7 @@ export default {
     },
     checkClose() {
       //  Use for reduce height to scroll for close informations
-      const reduceFactor = 1.2;
+      const reduceFactor = 1.05;
       const elementMaxY =
         (this.appElement.offsetHeight / 3 - 80 / 2) * reduceFactor;
       const elementPosition = this.$refs.slider.getBoundingClientRect();
