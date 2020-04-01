@@ -1,31 +1,29 @@
-import firebase from "firebase";
 import { SET_DEBATE } from "../mutation-types";
+import { getDebateInfos, getDebatersProfil } from "@/firebase/db/debatesDb";
 
 const state = {
   inDebate: false,
   debateInformations: {
     uid: null,
-    sections: null
+    sections: null,
+    description: null
   }
 };
 
 // getters
 const getters = {
-  // dataValidityDuration: state => state.params.dataValidityDuration,
-  debate: state => state.debateInformations,
+  // debate: state => state.debateInformations,
+  debate: state => state
 };
 // actions
 const actions = {
   async getDebate({ commit }, debateUid) {
-    const response = await firebase
-      .firestore()
-      .collection('debates').doc(debateUid).get();
-
-    let debate = response.data();
+    const debate = await getDebateInfos(debateUid);
     debate.uid = debateUid;
+    debate.debaters = await getDebatersProfil(debate.debaters);
     commit(SET_DEBATE, debate);
     return debate.name;
-  },
+  }
 };
 
 // mutations
@@ -33,6 +31,8 @@ const mutations = {
   [SET_DEBATE](state, debate) {
     state.debateInformations.uid = debate.uid;
     state.debateInformations.name = debate.name;
+    state.debateInformations.description = debate.description;
+    state.debateInformations.debaters = debate.debaters;
     state.inDebate = true;
   }
 };

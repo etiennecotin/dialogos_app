@@ -1,7 +1,10 @@
 <template>
   <div>
     <p>In debate dyna: {{ debateId }}</p>
-    <debatInformations />
+    <debatInformations
+      :debateInformations="debate.debateInformations"
+      v-if="debateIsload"
+    />
   </div>
 </template>
 
@@ -17,12 +20,19 @@ export default {
     debatInformations
   },
   props: ["debateId"],
+  data() {
+    return {
+      debateIsload: false
+    };
+  },
   async created() {
     try {
       const debateName = await this.$store.dispatch("getDebate", this.debateId);
+      //wait set store
+      this.debateIsload = true;
       this.setHeader(debateName, false);
     } catch (e) {
-      // console.log(e);
+      console.log(e);
     }
   },
   computed: {

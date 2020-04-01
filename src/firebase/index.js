@@ -25,10 +25,10 @@ if (!firebase.apps.length) {
   // firebase.analytics();
 }
 
-const auth = firebase.auth();
+export const auth = firebase.auth();
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-const db = firebase.firestore();
+export const db = firebase.firestore();
 
 export default {
   auth,

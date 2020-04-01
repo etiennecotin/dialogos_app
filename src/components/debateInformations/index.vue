@@ -4,7 +4,7 @@
       :open="showInformation"
       @showInformations="value => (deployInformations = value)"
     />
-    <informations />
+    <informations :description="debateInformations.description" :debaters="debateInformations.debaters"/>
   </div>
 </template>
 
@@ -20,6 +20,11 @@ export default {
     moreInformations,
     informations
   },
+  props: {
+    debateInformations: {
+      type: Object
+    }
+  },
   data() {
     return {
       deployInformations: false,
@@ -34,7 +39,7 @@ export default {
       return this.deployInformations & this.isActiveDraggable;
     }
   },
-  mounted: function() {
+  mounted() {
     this.initData();
     this.initDraggable();
   },
@@ -58,8 +63,11 @@ export default {
           this.checkClose();
         },
         bounds: {
-          minY: this.appElement.offsetHeight - slider.offsetHeight,
-          maxY: this.appElement.offsetHeight / 3 - 80 / 2
+          // minY: this.appElement.offsetHeight / 3 - 80 / 2,
+          minY: 0,
+          // maxY: this.appElement.offsetHeight - slider.offsetHeight
+          maxY: slider.offsetHeight - this.appElement.offsetHeight / 2
+          // maxY: 300
         }
       });
       this.draggable[0].disable();
@@ -68,13 +76,13 @@ export default {
     },
     checkClose() {
       //  Use for reduce height to scroll for close informations
-      const reduceFactor = 1.05;
+      const reduceFactor = 1.15;
       const elementMaxY =
         (this.appElement.offsetHeight / 3 - 80 / 2) * reduceFactor;
       const elementPosition = this.$refs.slider.getBoundingClientRect();
 
       if (!this.dynamicClose && elementPosition.top > elementMaxY) {
-        this.dynamicClose = true;
+        // this.dynamicClose = true;
       }
     }
   },
@@ -114,7 +122,7 @@ export default {
   transition: 0.3s;
   transform: translate(0, calc(100% - 80px));
   &.open {
-    transform: translate(0, calc(15vh + 80px));
+    transform: translate(0, calc(60% + 80px));
   }
 }
 </style>

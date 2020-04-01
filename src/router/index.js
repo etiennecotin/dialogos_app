@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store";
-import firebase from "firebase";
+import { onAuthStateChanged } from "@/firebase/db/usersDb";
 
 Vue.use(VueRouter);
 
@@ -107,7 +107,7 @@ router.beforeEach(async (to, from, next) => {
   let currentUser = null;
   if (!isAppReady) {
     currentUser = await new Promise(resolve => {
-      firebase.auth().onAuthStateChanged(function(user) {
+      onAuthStateChanged(function(user) {
         if (!user) {
           resolve(false);
         }
