@@ -58,7 +58,7 @@ module.exports = {
       display: "standalone",
       orientation: "portrait",
       background_color: "#292929",
-      start_url: "/"
+      start_url: "/index.html"
     }
 
     // workboxOptions: {
