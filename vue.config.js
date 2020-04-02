@@ -47,9 +47,10 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "#292929",
     // configure the workbox plugin
-    // workboxPluginMode: "InjectManifest",
+    workboxPluginMode: "InjectManifest",
     workboxOptions: {
-      // swSrc: "src/service-worker.js",
+      importWorkboxFrom: 'local',
+      swSrc: "src/service-worker.js",
       exclude: [/\.map$/, /manifest\.json$/, /_redirects/]
     },
     manifestOptions: {
