@@ -39,5 +39,31 @@ module.exports = {
         prependData: `@import "@/assets/css/index.scss";`
       }
     }
+  },
+  pwa: {
+    name: "Dialogos",
+    themeColor: "#D7BB61",
+    msTileColor: "#D7BB61",
+    appleMobileWebAppCapable: "yes",
+    appleMobileWebAppStatusBarStyle: "#292929",
+    // configure the workbox plugin
+    // workboxPluginMode: "InjectManifest",
+    // workboxOptions: {
+    //   swSrc: "src/service-worker.js",
+    //   exclude: [/\.map$/, /manifest\.json$/]
+    // },
+    manifestOptions: {
+      short_name: "dialogos",
+      display: "standalone",
+      orientation: "portrait",
+      background_color: "#292929",
+      start_url: "."
+    }
+
+    // workboxOptions: {
+    // swSrc is required in InjectManifest mode.
+    // swSrc: 'dev/sw.js',
+    // ...other Workbox options...
+    // }
   }
 };

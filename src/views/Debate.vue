@@ -28,7 +28,7 @@ export default {
   async created() {
     try {
       const debateName = await this.$store.dispatch("getDebate", this.debateId);
-      //wait set store
+      //wait store is set
       this.debateIsload = true;
       this.setHeader(debateName, false);
     } catch (e) {

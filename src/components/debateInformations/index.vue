@@ -2,9 +2,12 @@
   <div id="debateInformations" :class="{ open: showInformation }" ref="slider">
     <moreInformations
       :open="showInformation"
-      @showInformations="value => (deployInformations = value)"
+      @showInformations="showInformations"
     />
-    <informations :description="debateInformations.description" :debaters="debateInformations.debaters"/>
+    <informations
+      :description="debateInformations.description"
+      :debaters="debateInformations.debaters"
+    />
   </div>
 </template>
 
@@ -41,18 +44,24 @@ export default {
   },
   mounted() {
     this.initData();
-    this.initDraggable();
   },
   methods: {
     initData() {
       this.appElement = document.getElementById("app");
     },
+    showInformations() {
+      this.deployInformations = !this.deployInformations ;
+      if (!this.draggable) {
+        this.initDraggable();
+      }
+    },
     initDraggable() {
       gsap.registerPlugin(Draggable);
       const { slider } = this.$refs;
+      const maxY = slider.offsetHeight - this.appElement.offsetHeight * 0.6 ;
       this.draggable = Draggable.create(slider, {
         type: "y",
-        edgeResistance: 0.7,
+        edgeResistance: 0.4,
         inertia: true,
         lockAxis: true,
         throwProps: true,
@@ -63,11 +72,8 @@ export default {
           this.checkClose();
         },
         bounds: {
-          // minY: this.appElement.offsetHeight / 3 - 80 / 2,
           minY: 0,
-          // maxY: this.appElement.offsetHeight - slider.offsetHeight
-          maxY: slider.offsetHeight - this.appElement.offsetHeight / 2
-          // maxY: 300
+          maxY: maxY
         }
       });
       this.draggable[0].disable();
@@ -76,25 +82,27 @@ export default {
     },
     checkClose() {
       //  Use for reduce height to scroll for close informations
-      const reduceFactor = 1.15;
+      const reduceFactor = 0.75;
       const elementMaxY =
-        (this.appElement.offsetHeight / 3 - 80 / 2) * reduceFactor;
+        (this.appElement.offsetHeight * 0.6) * reduceFactor;
       const elementPosition = this.$refs.slider.getBoundingClientRect();
 
       if (!this.dynamicClose && elementPosition.top > elementMaxY) {
-        // this.dynamicClose = true;
+        this.dynamicClose = true;
       }
     }
   },
   watch: {
     deployInformations(val) {
-      if (val) {
-        this.draggable[0].enable();
-        this.isActiveDraggable = true;
-      } else {
-        this.draggable[0].disable();
-        this.$refs.slider.removeAttribute("style");
-        this.isActiveDraggable = false;
+      if (this.draggable) {
+        if (val) {
+          this.draggable[0].enable();
+          this.isActiveDraggable = true;
+        } else {
+          this.draggable[0].disable();
+          this.$refs.slider.removeAttribute("style");
+          this.isActiveDraggable = false;
+        }
       }
     },
     // use for close informations on drag bottom
