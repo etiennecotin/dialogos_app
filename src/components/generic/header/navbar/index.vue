@@ -1,24 +1,38 @@
 <template>
   <div id="navbar" :class="{ open: isOpen }">
     <div class="top">
-      <div class="profil-picture">
-        <p>photo</p>
-      </div>
+      <router-link
+        :to="{ name: 'profil' }"
+        class="nav-link"
+        @click.native="iconClicked"
+      >
+        <div class="profil-picture">
+          <p>photo</p>
+        </div>
+      </router-link>
       <hr />
-      <router-link to="/" class="nav-link">
+      <router-link to="/" class="nav-link" @click.native="iconClicked">
         <HomeIcon />
       </router-link>
       <div class="point"></div>
-      <router-link :to="{ name: 'calendar' }" class="nav-link">
+      <router-link
+        :to="{ name: 'calendar' }"
+        class="nav-link"
+        @click.native="iconClicked"
+      >
         <CalendarIcon />
       </router-link>
       <div class="point"></div>
-      <router-link :to="{ name: 'search' }" class="nav-link">
+      <router-link
+        :to="{ name: 'search' }"
+        class="nav-link"
+        @click.native="iconClicked"
+      >
         <SearchIcon />
       </router-link>
     </div>
     <div class="bottom">
-      <router-link :to="{ name: 'logout' }">
+      <router-link :to="{ name: 'logout' }" @click.native="iconClicked">
         <LogoutIcon />
       </router-link>
     </div>
@@ -43,6 +57,11 @@ export default {
     isOpen: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    iconClicked() {
+      this.$emit("iconClicked", true);
     }
   }
 };
@@ -69,7 +88,6 @@ export default {
     flex-direction: column;
     align-items: center;
     .profil-picture {
-      margin: 10px 0;
       width: 50px;
       height: 50px;
       border-radius: 50px;

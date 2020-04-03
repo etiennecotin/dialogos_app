@@ -5,8 +5,10 @@
       @showInformations="showInformations"
     />
     <informations
+      :debateName="debateInformations.name"
       :description="debateInformations.description"
       :debaters="debateInformations.debaters"
+      @stopParentDrag="stopDrag"
     />
   </div>
 </template>
@@ -50,7 +52,7 @@ export default {
       this.appElement = document.getElementById("app");
     },
     showInformations() {
-      this.deployInformations = !this.deployInformations ;
+      this.deployInformations = !this.deployInformations;
       if (!this.draggable) {
         this.initDraggable();
       }
@@ -58,15 +60,16 @@ export default {
     initDraggable() {
       gsap.registerPlugin(Draggable);
       const { slider } = this.$refs;
-      const maxY = slider.offsetHeight - this.appElement.offsetHeight * 0.6 ;
+      const maxY = slider.offsetHeight - this.appElement.offsetHeight * 0.6;
       this.draggable = Draggable.create(slider, {
         type: "y",
-        edgeResistance: 0.4,
+        edgeResistance: 0.7,
+        dragResistance: 0.1,
         inertia: true,
         lockAxis: true,
         throwProps: true,
-        throwResistance: 10,
-        dragClickables: true,
+        throwResistance: 1000,
+        dragClickables: false,
         allowNativeTouchScrolling: false,
         onMove: () => {
           this.checkClose();
@@ -80,11 +83,19 @@ export default {
       slider.removeAttribute("style");
       this.isActiveDraggable = false;
     },
+    stopDrag(val) {
+      if (val) {
+        this.draggable[0].disable();
+        this.isActiveDraggable = false;
+      } else {
+        this.draggable[0].enable();
+        this.isActiveDraggable = true;
+      }
+    },
     checkClose() {
       //  Use for reduce height to scroll for close informations
-      const reduceFactor = 0.75;
-      const elementMaxY =
-        (this.appElement.offsetHeight * 0.6) * reduceFactor;
+      const reduceFactor = 0.70;
+      const elementMaxY = this.appElement.offsetHeight * 0.6 * reduceFactor;
       const elementPosition = this.$refs.slider.getBoundingClientRect();
 
       if (!this.dynamicClose && elementPosition.top > elementMaxY) {

@@ -6,7 +6,8 @@ import {
   getUserInfo,
   loginUser,
   registerUser,
-  logout
+  logout,
+  addUserProfilPicture
 } from "@/firebase/db/usersDb";
 
 const state = {
@@ -69,6 +70,11 @@ const actions = {
         //  TOTO ajouter un retour erreur
       }
     );
+  },
+  async changeUserProfilPicture({ commit }, file) {
+    console.log(commit, file);
+    const response = await addUserProfilPicture(file);
+    console.log(response);
   }
 };
 

@@ -1,19 +1,24 @@
 <template>
   <div id="informations">
-    <h1>Debate name</h1>
+    <h1>{{ debateName }}</h1>
     <h2>Débatteurs</h2>
-    <div v-for="debater in debaters" :key="debater.uid">
-      <p></p>{{debater.firstName}}
-    </div>
+    <debaterList :debaterList="debaters" />
     <h2>Descriptions</h2>
     <p class="descsription">{{ description }}</p>
   </div>
 </template>
 
 <script>
+import debaterList from "@/components/debateInformations/debaterList";
 export default {
   name: "informations",
+  components: {
+    debaterList
+  },
   props: {
+    debateName: {
+      type: String
+    },
     description: {
       type: String
     },
@@ -50,7 +55,7 @@ export default {
     font-size: 20px;
     font-weight: bold;
     text-decoration: underline;
-    margin: 10px 0;
+    margin: 25px 0 16px 0;
   }
   .descsription {
     text-align: left;

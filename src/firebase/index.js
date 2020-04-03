@@ -2,6 +2,7 @@ import Vue from "vue";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 import { firestorePlugin } from "vuefire";
 
 Vue.use(firestorePlugin);
@@ -29,9 +30,11 @@ export const auth = firebase.auth();
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 export const db = firebase.firestore();
+export const storage = firebase.storage();
 
 export default {
   auth,
   firebase,
-  db
+  db,
+  storage
 };
