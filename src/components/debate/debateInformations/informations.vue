@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import debaterList from "@/components/debateInformations/debaterList";
+import debaterList from "@/components/debate/debateInformations/debaterList";
 export default {
   name: "informations",
   components: {

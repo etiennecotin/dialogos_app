@@ -14,10 +14,11 @@
 </template>
 
 <script>
-import moreInformations from "@/components/debateInformations/moreInformations";
-import informations from "@/components/debateInformations/informations";
+import moreInformations from "@/components/debate/debateInformations/moreInformations";
+import informations from "@/components/debate/debateInformations/informations";
 import { gsap } from "gsap";
 import Draggable from "gsap/Draggable";
+import { InertiaPlugin } from "@/custom_modules/gsap-with-bonus/InertiaPlugin";
 
 export default {
   name: "debateInformations",
@@ -59,6 +60,7 @@ export default {
     },
     initDraggable() {
       gsap.registerPlugin(Draggable);
+      gsap.registerPlugin(InertiaPlugin);
       const { slider } = this.$refs;
       const maxY = slider.offsetHeight - this.appElement.offsetHeight * 0.6;
       this.draggable = Draggable.create(slider, {

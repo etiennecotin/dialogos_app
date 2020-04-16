@@ -33,9 +33,9 @@ export default {
   methods: {
     fileSelected(evt) {
       evt.preventDefault();
-      console.log(evt);
+      // console.log(evt);
       this.selectedFile = evt.target.files[0];
-      console.log(this.selectedFile);
+      // console.log(this.selectedFile);
       this.imagePreviewUrl = URL.createObjectURL(this.selectedFile);
     },
     uploadImage() {

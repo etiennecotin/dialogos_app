@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import debater from "@/components/debateInformations/debater";
+import debater from "@/components/debate/debateInformations/debater";
 import { gsap } from "gsap";
 import Draggable from "gsap/Draggable";
 import { InertiaPlugin } from "@/custom_modules/gsap-with-bonus/InertiaPlugin";

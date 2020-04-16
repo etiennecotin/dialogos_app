@@ -34,25 +34,28 @@ export const addUserProfilPicture = async (file) => {
     "state_changed",
     function(snapshot) {
       let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
+      // console.log("Upload is " + progress + "% done");
       switch (snapshot.state) {
         case "paused": // or 'paused'
-          console.log("Upload is paused");
+          // console.log("Upload is paused");
           break;
         case "running": // or 'running'
-          console.log("Upload is running");
+          // console.log("Upload is running");
           break;
       }
+      return progress;
     },
     function(error) {
       // Handle unsuccessful uploads
-      console.log(error);
+      // console.log(error);
+      return error;
     },
     function() {
       // Handle successful uploads on complete
       // For instance, get the download URL: https://firebasestorage.googleapis.com/...
       uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-        console.log("File available at", downloadURL);
+        // console.log("File available at", downloadURL);
+        return downloadURL;
       });
     }
   );

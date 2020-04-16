@@ -1,4 +1,4 @@
-import { SET_FORM_EMAIL, SET_USER_DATA, LOGOUT } from "../mutation-types";
+import { SET_FORM_EMAIL, SET_USER_DATA, LOGOUT, SET_PROFIL_PICTURE } from "../mutation-types";
 import {
   addUserInfo,
   onAuthStateChanged,
@@ -72,9 +72,9 @@ const actions = {
     );
   },
   async changeUserProfilPicture({ commit }, file) {
-    console.log(commit, file);
+    // console.log(commit, file);
     const response = await addUserProfilPicture(file);
-    console.log(response);
+    commit(SET_PROFIL_PICTURE, response);
   }
 };
 
@@ -89,6 +89,10 @@ const mutations = {
   [SET_USER_DATA](state, params) {
     // state.logged = true;
     state.userInfo = params;
+  },
+  [SET_PROFIL_PICTURE](state, url) {
+    // state.logged = true;
+    state.userInfo.profilPicture = url;
   },
   [LOGOUT](state) {
     state.logged = false;
