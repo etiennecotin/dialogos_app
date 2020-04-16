@@ -143,7 +143,8 @@ export default {
     },
     positionPlayhead(position) {
       // playhead = setInterval(function() {
-      console.log(position);
+      // console.log(position);
+      return position;
       // gsap.set('.time', {
       //   x: position * this.currentTime
       // });
@@ -152,7 +153,8 @@ export default {
   },
   watch: {
     currentTime(val) {
-      console.log(val);
+      // console.log(val);
+      return val;
       // gsap.set(".timeLine", {
       //   x: -val
       // });
