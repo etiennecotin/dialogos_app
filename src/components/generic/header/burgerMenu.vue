@@ -34,14 +34,15 @@ export default {
     "click-outside": {
       bind: function(el, binding, vNode) {
         // Provided expression must evaluate to a function.
-        // if (typeof binding.value !== "function") {
-        //   const compName = vNode.context.name;
-        //   let warn = `[Vue-click-outside:] provided expression '${binding.expression}' is not a function, but has to be`;
-        //   if (compName) {
-        //     warn += `Found in component '${compName}'`;
-        //   }
-        //   console.error(warn);
-        // }
+        if (typeof binding.value !== "function") {
+          const compName = vNode.context.name;
+          let warn = `[Vue-click-outside:] provided expression '${binding.expression}' is not a function, but has to be`;
+          if (compName) {
+            warn += `Found in component '${compName}'`;
+          }
+          // console.error(warn);
+          throw warn;
+        }
         // Define Handler and cache it on the element
         const bubble = binding.modifiers.bubble;
         const handler = e => {
