@@ -89,5 +89,6 @@ export default {
   display: flex;
   margin: 5px 0;
   padding: 0 20px;
+  flex: 1;
 }
 </style>

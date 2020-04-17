@@ -70,6 +70,7 @@ export default {
       }
       span {
         margin-left: 25px;
+        font-family: "Helvetica Now Display", sans-serif;
         color: $yellow;
         font-weight: 300;
         position: relative;
@@ -96,6 +97,7 @@ export default {
           }
         }
         &:checked ~ span {
+          font-weight: 500;
           &:before {
             border: 1px solid $yellow;
           }

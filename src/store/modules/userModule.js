@@ -1,4 +1,10 @@
-import { SET_FORM_EMAIL, SET_USER_DATA, LOGOUT, SET_PROFIL_PICTURE } from "../mutation-types";
+import {
+  SET_FORM_EMAIL,
+  SET_USER_DATA,
+  LOGOUT,
+  SET_PROFIL_PICTURE,
+  SET_UPLOAD_PICTURE
+} from "../mutation-types";
 import {
   addUserInfo,
   onAuthStateChanged,
@@ -7,7 +13,8 @@ import {
   loginUser,
   registerUser,
   logout,
-  addUserProfilPicture
+  addUserProfilPicture,
+  updateUserInfo
 } from "@/firebase/db/usersDb";
 
 const state = {
@@ -15,14 +22,18 @@ const state = {
     email: ""
   },
   logged: false,
-  userInfo: {}
+  userInfo: {},
+  uploadFile: null
 };
 
 // getters
 const getters = {
   // dataValidityDuration: state => state.params.dataValidityDuration,
   isEmailExist: state => state.loginForm.email.length > 1,
-  isLogged: state => state.logged
+  isLogged: state => state.logged,
+  uploadAdvancement: state => Math.trunc(state.uploadFile),
+  profilePicture: state => state.userInfo.profilePicture,
+  userInfos: state => state.userInfo
 };
 // actions
 const actions = {
@@ -34,6 +45,7 @@ const actions = {
   async login({ commit, state }, password) {
     const response = await loginUser(state.loginForm.email, password);
     const user = await getUserInfo(response.user.uid);
+    user.uid = response.user.uid;
     user.email = state.loginForm.email;
     commit(SET_USER_DATA, user);
   },
@@ -61,7 +73,8 @@ const actions = {
       async user => {
         if (user) {
           await commit("SET_LOGGED");
-          const userInfo = getUserInfo(user.uid);
+          const userInfo = await getUserInfo(user.uid);
+          userInfo.uid = user.uid;
           userInfo.email = user.email;
           commit(SET_USER_DATA, userInfo);
         }
@@ -71,10 +84,16 @@ const actions = {
       }
     );
   },
-  async changeUserProfilPicture({ commit }, file) {
-    // console.log(commit, file);
-    const response = await addUserProfilPicture(file);
-    commit(SET_PROFIL_PICTURE, response);
+  async changeUserProfilPicture({ commit, state }, file) {
+    const imageUrl = await addUserProfilPicture(file, function(snapshot) {
+      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      commit(SET_UPLOAD_PICTURE, progress);
+    });
+    await updateUserInfo(state.userInfo.uid, {
+      profilePicture: imageUrl
+    });
+    commit(SET_PROFIL_PICTURE, imageUrl);
+    return true;
   }
 };
 
@@ -91,8 +110,10 @@ const mutations = {
     state.userInfo = params;
   },
   [SET_PROFIL_PICTURE](state, url) {
-    // state.logged = true;
-    state.userInfo.profilPicture = url;
+    state.userInfo.profilePicture = url;
+  },
+  [SET_UPLOAD_PICTURE](state, percentage) {
+    state.uploadFile = percentage;
   },
   [LOGOUT](state) {
     state.logged = false;

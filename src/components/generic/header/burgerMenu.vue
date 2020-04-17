@@ -40,6 +40,8 @@ export default {
           if (compName) {
             warn += `Found in component '${compName}'`;
           }
+
+          console.warn(warn);
         }
         // Define Handler and cache it on the element
         const bubble = binding.modifiers.bubble;

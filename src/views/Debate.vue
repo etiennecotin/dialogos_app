@@ -5,10 +5,10 @@
         <timers />
         <timeline />
       </div>
+      <p class="sectionTitle">
+        Présentation de Charle Henri sur les cœurs assistés mécaniquement
+      </p>
       <div class="sectionContainer">
-        <p class="sectionTitle">
-          Présentation de Charle Henri sur les cœurs assistés mécaniquement
-        </p>
         <liveQuestions />
       </div>
       <interactionBar :debate-name="debate.debateInformations.name" />
@@ -69,16 +69,24 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    .temporalInformations {
+      flex: 1;
+    }
+    .sectionTitle {
+      color: $yellow;
+      font-size: 1.25em;
+      font-family: $serif-font;
+      font-weight: 700;
+      text-align: left;
+      padding: 0 20px;
+      margin: 10px 0;
+    }
     .sectionContainer {
       padding: 0 20px;
-      height: 100%;
-      .sectionTitle {
-        color: $yellow;
-        font-size: 1.25em;
-        font-family: $serif-font;
-        font-weight: 700;
-        text-align: left;
-      }
+      display: flex;
+      flex: 10;
+      flex-wrap: wrap;
+      overflow: auto;
     }
   }
 }
