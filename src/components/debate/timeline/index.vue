@@ -6,93 +6,151 @@
       <timePoint
         v-for="(point, index) in points"
         :time="point.time"
+        :position="point.position"
         :key="index"
       />
     </div>
-    <button @click="start">start</button>
-    <p>{{ prettyTime }}</p>
+    <button
+      v-if="!counter.onCurrentTime"
+      @click="current"
+      style="top: -20px;
+    position: absolute;"
+    >
+      go to current
+    </button>
+    <p class="actualTime">
+      <span class="hours">{{ prettyMinutes }}</span
+      >:<span class="seconds">{{ prettySeconds }}</span>
+    </p>
   </div>
 </template>
 
 <script>
 import timePoint from "@/components/debate/timeline/timePoint";
-import { gsap } from "gsap";
+import { gsap, Linear } from "gsap";
 import Draggable from "gsap/Draggable";
-import { InertiaPlugin } from "@/custom_modules/gsap-with-bonus/InertiaPlugin";
 
 export default {
   name: "timeline",
   components: {
     timePoint
   },
+  props: {
+    sections: {
+      type: Array
+    },
+    debateDuration: {
+      type: Number
+    },
+    startedAt: {}
+  },
   mounted() {
-    this.windowWith = window.innerWidth;
-    // const widthFactor = windowWith / 85;
-    // console.log(widthFactor * 15);
-    // console.log(widthFactor * 25);
-    // console.log(widthFactor * 30);
-    // console.log(widthFactor * 15);
+    this.initTimeline();
     this.initDrag();
   },
   data() {
     return {
-      points: [{ time: 15 }, { time: 30 }, { time: 45 }],
-      debateTime: 120,
+      points: [],
       sectionsNumber: 4,
-      isRunning: false,
-      minutes: 0,
-      secondes: 0,
-      currentTime: 20,
-      finalTime: 120,
       timeline: null,
-      timer: null,
-      windowWith: 2
+      draggable: null,
+      windowWith: null,
+      counter: {
+        isRunning: false,
+        currentTime: 0,
+        finalTime: 120,
+        minutes: 0,
+        seconds: 0,
+        timer: null,
+        onCurrentTime: true
+      }
     };
   },
   computed: {
-    prettyTime() {
-      let time = this.currentTime / 60;
+    prettyMinutes() {
+      let time = parseInt(this.counter.currentTime / 60);
+      if (time > this.debateDuration) {
+        return this.debateDuration;
+      } else {
+        return time < 0 ? 0 : time;
+      }
+    },
+    prettySeconds() {
+      let time = this.counter.currentTime / 60;
       let minutes = parseInt(time);
-      let secondes = Math.round((time - minutes) * 60);
-      return minutes + ":" + secondes;
+      if (time > this.debateDuration) {
+        return 0;
+      } else {
+        return Math.round((time - minutes) * 60) < 0
+          ? 0
+          : Math.round((time - minutes) * 60);
+      }
     }
   },
   methods: {
+    initTimeline() {
+      this.windowWith = window.innerWidth;
+      this.counter.debateTime = this.debateDuration;
+      const ratio = this.windowWith / this.counter.debateTime;
+      this.sections = this.sortByKey(this.sections, "order");
+      let timeArray = [];
+      let startTime = 0;
+      this.sections.forEach(item => {
+        timeArray.push({
+          time: startTime,
+          position: startTime * ratio
+        });
+        startTime += item.duration;
+      });
+      this.points = timeArray;
+
+      let startedDate = new Date(this.startedAt.seconds * 1000); // date object
+      let actualDate = new Date(); // date object
+
+      this.counter.currentTime = Math.trunc(
+        (actualDate.getTime() - startedDate.getTime()) / 1000
+      );
+      this.counter.finalTime = this.debateDuration * 60;
+      this.start();
+    },
+    sortByKey(array, key) {
+      return array.sort(function(a, b) {
+        const x = a[key];
+        const y = b[key];
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    },
     initDrag() {
       gsap.registerPlugin(Draggable);
-      gsap.registerPlugin(InertiaPlugin);
       const { timeLine, line, proxyTimeline } = this.$refs;
 
       const timeline = gsap.timeline({
-        repeat: this.finalTime,
+        repeat: this.counter.finalTime,
         repeatDelay: 1
       });
-      // timeline.seek(1.5);
-      timeline.to(line, {
+      timeline.to(line, this.counter.finalTime, {
         x: -this.windowWith,
-        duration: this.finalTime
+        ease: Linear.easeNone,
+        onComplete: () => {
+          timeline.kill();
+        }
       });
 
-      // gsap.set(line, {
-      //   x: -(this.currentTime)
-      // });
-        timeline.progress(this.currentTime);
-        // timeline.set(line,
-        //     {left : -this.currentTime }
-        // );
-        // timeline.play();
+      let progress = this.counter.currentTime / this.counter.finalTime;
+      if (progress >= 1) {
+        progress = 1;
+      }
+      timeline.progress(progress);
 
-      Draggable.create(proxyTimeline, {
+      this.draggable = Draggable.create(proxyTimeline, {
         type: "x",
-        edgeResistance: 0.6,
-        inertia: true,
         lockAxis: true,
         throwProps: true,
-        throwResistance: 1000,
         trigger: line,
-        // bounds: timeLine,
-        onDragStart: function() {
+        bounds: { minX: -this.windowWith + 1, maxX: this.windowWith },
+        onDragStart: () => {
           timeline.pause();
+          this.counter.onCurrentTime = false;
         },
         onDrag: function() {
           if (this.x < 0) {
@@ -103,61 +161,58 @@ export default {
         },
         onDragEnd: function() {
           timeline.play();
+          timeline.pause();
         },
         onPress: function() {
-          // console.log(
-          //   "update",
-          //   -(timeline.progress() * timeLine.getBoundingClientRect().width)
-          // );
-
           gsap.set(this.target, {
             x: -(timeline.progress() * timeLine.getBoundingClientRect().width)
           });
           this.update();
         }
       });
+
+      gsap.set(proxyTimeline, {
+        x: -(progress * timeLine.getBoundingClientRect().width)
+      });
+      this.timeline = timeline;
+    },
+    current() {
+      const { proxyTimeline, timeLine } = this.$refs;
+      this.counter.onCurrentTime = true;
+      let progress = this.counter.currentTime / this.counter.finalTime;
+      gsap.set(proxyTimeline, {
+        x: -(progress * timeLine.getBoundingClientRect().width)
+      });
+      if (progress >= 1) {
+        progress = 1;
+        this.timeline.progress(progress);
+      } else {
+        this.timeline.progress(progress);
+        this.timeline.play();
+      }
     },
     start() {
-      this.isRunning = true;
-      if (!this.timer) {
-        this.timer = setInterval(() => {
-          if (this.currentTime < this.finalTime) {
-            this.currentTime++;
+      this.counter.isRunning = true;
+      if (!this.counter.timer) {
+        this.counter.timer = setInterval(() => {
+          if (this.counter.currentTime < this.counter.finalTime) {
+            this.counter.currentTime++;
           } else {
-            clearInterval(this.timer);
-            this.reset();
+            clearInterval(this.counter.timer);
           }
         }, 1000);
       }
     },
     stop() {
-      this.isRunning = false;
-      clearInterval(this.timer);
-      this.timer = null;
+      this.counter.isRunning = false;
+      clearInterval(this.counter.timer);
+      this.counter.timer = null;
     },
     reset() {
       this.stop();
-      this.currentTime = 0;
-      this.secondes = 0;
-      this.minutes = 0;
-    },
-    positionPlayhead(position) {
-      // playhead = setInterval(function() {
-      // console.log(position);
-      return position;
-      // gsap.set('.time', {
-      //   x: position * this.currentTime
-      // });
-      // }, 30);
-    }
-  },
-  watch: {
-    currentTime(val) {
-      // console.log(val);
-      return val;
-      // gsap.set(".timeLine", {
-      //   x: -val
-      // });
+      this.counter.currentTime = 0;
+      this.counter.secondes = 0;
+      this.counter.minutes = 0;
     }
   }
 };
@@ -170,6 +225,21 @@ export default {
   display: flex;
   align-items: center;
   position: relative;
+  justify-content: center;
+  .actualTime {
+    z-index: 50;
+    background-color: $lightBlack;
+    border-radius: 56px;
+    padding: 6px;
+    color: $yellow;
+    .hours {
+      font-size: 23px;
+      font-weight: bold;
+    }
+    .seconds {
+      font-size: 15px;
+    }
+  }
   .timeLine {
     display: flex;
     align-items: center;
@@ -179,6 +249,7 @@ export default {
     .line {
       width: 100%;
       position: absolute;
+      z-index: 20;
     }
   }
 }

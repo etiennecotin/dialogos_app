@@ -1,16 +1,20 @@
 <template>
   <div class="timeInformations">
-    <timer :title="'Temps de débat'" :time="'1h10'" />
-    <timer :title="'Temps de la section'" :time="'15min'" />
+    <timer :title="'Temps de débat'" :time="debate.debateInformations.duration" />
+    <timer :title="'Temps de la section'" :time="actualSection.duration" />
   </div>
 </template>
 
 <script>
 import timer from "@/components/debate/timers/timer";
+import { mapGetters } from "vuex";
 export default {
   name: "timers",
   components: {
     timer
+  },
+  computed: {
+    ...mapGetters(["debate", "actualSection"])
   }
 };
 </script>

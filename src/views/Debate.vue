@@ -1,69 +1,141 @@
 <template>
   <div class="container">
-    <div class="debate">
-      <div class="temporalInformations">
-        <timers />
-        <timeline />
+    <transition name="fade">
+      <div class="debateLoader" v-if="!debateIsLoad">
+        <circleLoader />
       </div>
-      <p class="sectionTitle">
-        Présentation de Charle Henri sur les cœurs assistés mécaniquement
-      </p>
-      <div class="sectionContainer">
-        <liveQuestions />
+    </transition>
+    <transition name="fade">
+      <div class="debate" v-if="debateIsLoad">
+        <div class="temporalInformations">
+          <timers />
+          <timeline
+            :sections="sections"
+            :debateDuration="debate.debateInformations.duration"
+            :startedAt="debate.startedAt"
+          />
+        </div>
+        <p class="sectionTitle">
+          {{ actualSection.name }}
+          <button @click="scrollToBottom">scroll bot</button>
+        </p>
+        <div class="sectionContainer" ref="sectionContainer">
+          <liveQuestions :section-id="actualSection.uid" :sectionQuestions="actualSection.questions" @scrollToBottom="scrollToBottom" />
+        </div>
+        <interactionBar
+          :debate-name="debate.debateInformations.name"
+          :debateEnded="isFinish"
+        />
+        <debateInformations
+          :debateInformations="debate.debateInformations"
+          v-if="debateIsLoad"
+        />
       </div>
-      <interactionBar :debate-name="debate.debateInformations.name" />
-      <debatInformations
-        :debateInformations="debate.debateInformations"
-        v-if="debateIsload"
-      />
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import { initHeader } from "@/mixins/setHeader";
 import { mapGetters } from "vuex";
-import debatInformations from "@/components/debate/debateInformations/index";
+import debateInformations from "@/components/debate/debateInformations/index";
 import liveQuestions from "@/components/debate/liveQuestions/index";
 import interactionBar from "@/components/debate/interactionBar/index";
 import timers from "@/components/debate/timers/index";
 import timeline from "@/components/debate/timeline/index";
+import { gsap } from "gsap";
+import ScrollToPlugin from "gsap/ScrollToPlugin";
+import circleLoader from "@/components/generic/loader/circleLoader";
 
 export default {
   name: "Debate",
   mixins: [initHeader],
   components: {
-    debatInformations,
+    debateInformations: debateInformations,
     timers,
     timeline,
     liveQuestions,
-    interactionBar
+    interactionBar,
+    circleLoader
   },
   props: ["debateId"],
   data() {
     return {
-      debateIsload: false
+      debateIsLoad: false
     };
   },
   async created() {
+    gsap.registerPlugin(ScrollToPlugin);
     try {
       const debateName = await this.$store.dispatch("getDebate", this.debateId);
       //wait store is set
-      this.debateIsload = true;
+      this.debateIsLoad = true;
       this.setHeader(debateName, false);
     } catch (e) {
       // console.log(e);
     }
   },
   computed: {
-    ...mapGetters(["debate"])
+    ...mapGetters(["debate", "actualSection"]),
+    debateLoaded() {
+      return this.debateIsLoad && this.sections;
+    },
+    sections() {
+      return this.debate.sections;
+    },
+    isFinish() {
+      let startedDate = new Date(this.debate.startedAt.seconds * 1000); // date object
+      let actualDate = new Date(); // date object
+
+      const currentTime = Math.trunc(
+        (actualDate.getTime() - startedDate.getTime()) / 1000
+      );
+
+      let time = parseInt(currentTime / 60);
+      return time > this.debate.debateInformations.duration;
+    }
+  },
+  beforeDestroy() {
+    this.$store.dispatch("unsubscribeDebate");
+  },
+  methods: {
+    scrollToBottom() {
+      const liveQuestions = this.$refs.sectionContainer;
+      if (liveQuestions) {
+        gsap.to(liveQuestions, {
+          duration: 2,
+          scrollTo: { y: "max" }
+        });
+      }
+    }
+  },
+  watch: {
+    debateLoaded(val) {
+      if (val) {
+        this.scrollToBottom();
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 .container {
   height: calc(100vh - 140px);
+  .debateLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
   .debate {
     height: 100%;
     display: flex;

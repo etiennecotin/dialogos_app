@@ -1,5 +1,5 @@
 <template>
-  <button class="interactButton">
+  <button class="interactButton" :disabled="disabled">
     {{ btnContent }}
   </button>
 </template>
@@ -11,6 +11,9 @@ export default {
     btnContent: {
       type: String,
       default: "Your text here"
+    },
+    disabled: {
+      type: Boolean
     }
   }
 };
@@ -29,6 +32,12 @@ export default {
   outline: none;
   &:hover {
     cursor: pointer;
+  }
+  &:disabled {
+    background-color: $disabledYellow;
+    &:hover {
+      cursor: default;
+    }
   }
   &:first-child {
     margin-left: 0;

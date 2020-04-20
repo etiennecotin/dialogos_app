@@ -5,29 +5,10 @@
     </div>
     <div class="questions-wrapper" v-show="!waiting">
       <question
-        author="Jean bon"
-        question="Quel est votre point de vu sur les pratiques de transhumanisme curatif
-        ou d'amélioration et leur égalité l'une par rapport à l'autre?"
-      />
-      <question
-        author="Arti cho"
-        question="Quel est votre point de vu sur les pratiques de transhumanisme curatif
-        ou d'amélioration et leur égalité l'une par rapport à l'autre?"
-      />
-      <question
-        author="Etienne Cotin"
-        question="Quel est votre point de vu sur les pratiques de transhumanisme curatif
-        ou d'amélioration et leur égalité l'une par rapport à l'autre?"
-      />
-      <question
-        author="Etienne Cotin"
-        question="Quel est votre point de vu sur les pratiques de transhumanisme curatif
-        ou d'amélioration et leur égalité l'une par rapport à l'autre?"
-      />
-      <question
-        author="Etienne Cotin"
-        question="Quel est votre point de vu sur les pratiques de transhumanisme curatif
-        ou d'amélioration et leur égalité l'une par rapport à l'autre?"
+        v-for="(question, index) in orderQuestions"
+        :author="question.author"
+        :question="question.name"
+        :key="index"
       />
     </div>
   </div>
@@ -43,16 +24,48 @@ export default {
     ripple,
     question
   },
-  data() {
-    return {
-      waiting: false
-    };
+  props: {
+    sectionId: {
+      type: String
+    },
+    sectionQuestions: {
+      type: Array
+    }
+  },
+  mounted() {
+    this.$store.dispatch("listenQuestions", this.sectionId);
+  },
+  computed: {
+    waiting() {
+      return !(this.sectionQuestions.length > 0);
+    },
+    orderQuestions() {
+      return this.sortByKey(
+        this.sectionQuestions.filter(item => item.validate),
+        "validateDate"
+      );
+    }
+  },
+  methods: {
+    sortByKey(array, key) {
+      return array.sort(function(a, b) {
+        const x = a[key];
+        const y = b[key];
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    }
+  },
+  watch: {
+    sectionQuestions() {
+      this.$emit("scrollToBottom");
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .live-questions {
+  width: 100%;
   /*height: 100%;*/
   /*display: flex;*/
   /*flex: 1;*/
@@ -66,7 +79,7 @@ export default {
     align-items: center;
   }
   .questions-wrapper {
-    /*height: 100%;*/
+    height: 100%;
     display: flex;
     max-height: 100%;
     overflow: auto;

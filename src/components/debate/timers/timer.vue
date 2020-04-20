@@ -1,7 +1,7 @@
 <template>
   <div class="timer">
     <p class="title">{{ title }}</p>
-    <p class="time">{{ time }}</p>
+    <p class="time">{{ formatedTime }}</p>
   </div>
 </template>
 
@@ -12,7 +12,19 @@ export default {
     title: {
       type: String
     },
-    time: {}
+    time: {
+      type: Number
+    }
+  },
+  computed: {
+    formatedTime() {
+      const hours = Math.floor(this.time / 60);
+      const minutes = this.time % 60;
+      if (hours >= 1) {
+        return `${hours}h${minutes}`;
+      }
+      return `${minutes}min`;
+    }
   }
 };
 </script>

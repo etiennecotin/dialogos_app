@@ -23,7 +23,8 @@ const state = {
   },
   logged: false,
   userInfo: {},
-  uploadFile: null
+  uploadFile: null,
+  inDebate: false // TODO map to local storage for retriveaw debate on open app
 };
 
 // getters

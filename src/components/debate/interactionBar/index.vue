@@ -3,10 +3,12 @@
     <interactionButton
       btn-content="Evaluer"
       @click.native="openModal('showModalRate')"
+      :disabled="debateEnded"
     />
     <interactionButton
       btn-content="Intéragir"
       @click.native="openModal('showModalInteract')"
+      :disabled="debateEnded"
     />
     <interactionButton
       btn-content="Infos"
@@ -64,6 +66,9 @@ export default {
     debateName: {
       type: String,
       default: "Empty debate name"
+    },
+    debateEnded: {
+      type: Boolean
     }
   },
   data() {
