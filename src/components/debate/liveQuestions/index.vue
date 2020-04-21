@@ -58,6 +58,9 @@ export default {
   watch: {
     sectionQuestions() {
       this.$emit("scrollToBottom");
+    },
+    sectionId(val) {
+      this.$store.dispatch("listenQuestions", val);
     }
   }
 };

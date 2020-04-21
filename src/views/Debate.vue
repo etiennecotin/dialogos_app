@@ -13,14 +13,19 @@
             :sections="sections"
             :debateDuration="debate.debateInformations.duration"
             :startedAt="debate.startedAt"
+            @selectSection="selectSection"
           />
         </div>
         <p class="sectionTitle">
-          {{ actualSection.name }}
+          {{ actualSectionSelected.name }}
           <button @click="scrollToBottom">scroll bot</button>
         </p>
         <div class="sectionContainer" ref="sectionContainer">
-          <liveQuestions :section-id="actualSection.uid" :sectionQuestions="actualSection.questions" @scrollToBottom="scrollToBottom" />
+          <liveQuestions
+            :section-id="actualSectionSelected.uid"
+            :sectionQuestions="actualSectionSelected.questions"
+            @scrollToBottom="scrollToBottom"
+          />
         </div>
         <interactionBar
           :debate-name="debate.debateInformations.name"
@@ -61,7 +66,8 @@ export default {
   props: ["debateId"],
   data() {
     return {
-      debateIsLoad: false
+      debateIsLoad: false,
+      selectSectionNumber: null
     };
   },
   async created() {
@@ -82,6 +88,14 @@ export default {
     },
     sections() {
       return this.debate.sections;
+    },
+    actualSectionSelected() {
+      if (this.selectSectionNumber) {
+        return this.sections.find(
+          item => item.order === this.selectSectionNumber
+        );
+      }
+      return this.actualSection;
     },
     isFinish() {
       let startedDate = new Date(this.debate.startedAt.seconds * 1000); // date object
@@ -107,6 +121,9 @@ export default {
           scrollTo: { y: "max" }
         });
       }
+    },
+    selectSection(sectionNumber) {
+      this.selectSectionNumber = sectionNumber;
     }
   },
   watch: {

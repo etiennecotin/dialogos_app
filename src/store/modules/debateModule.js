@@ -66,6 +66,7 @@ const actions = {
         state.debateInformations.uid,
         sectionId,
         function(doc) {
+          // console.log("change => ", actualSectionIndex)
           //get change array
           const newQuestions = doc.docs.map(doc => {
             let data = doc.data();

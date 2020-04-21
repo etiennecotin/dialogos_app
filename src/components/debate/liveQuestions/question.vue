@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade" mode="out-in">
+  <transition name="slide-fade" >
     <div class="question-item">
       <div class="profile-picture">
         <img

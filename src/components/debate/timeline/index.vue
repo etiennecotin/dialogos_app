@@ -98,7 +98,8 @@ export default {
       this.sections.forEach(item => {
         timeArray.push({
           time: startTime,
-          position: startTime * ratio
+          position: startTime * ratio,
+          section: item.order
         });
         startTime += item.duration;
       });
@@ -142,10 +143,31 @@ export default {
       }
       timeline.progress(progress);
 
+      const detectSection = drag => {
+        const timelineWidth = timeLine.getBoundingClientRect().width;
+        const timelinePosition = drag.x;
+
+        const positionIndex =
+          -(timelinePosition / timelineWidth) * timelineWidth;
+
+        let selected;
+        if (positionIndex > 0) {
+          for (let i = 0; i < this.points.length; i++) {
+            if (positionIndex > this.points[i].position) {
+              selected = this.points[i];
+            }
+          }
+        } else {
+          selected = this.points[0];
+        }
+        this.$emit("selectSection", selected.section);
+      };
+
       this.draggable = Draggable.create(proxyTimeline, {
         type: "x",
         lockAxis: true,
-        throwProps: true,
+        edgeResistance: 1,
+        throwProps: false,
         trigger: line,
         bounds: { minX: -this.windowWith + 1, maxX: this.windowWith },
         onDragStart: () => {
@@ -160,6 +182,7 @@ export default {
           }
         },
         onDragEnd: function() {
+          detectSection(this);
           timeline.play();
           timeline.pause();
         },
@@ -183,6 +206,7 @@ export default {
       gsap.set(proxyTimeline, {
         x: -(progress * timeLine.getBoundingClientRect().width)
       });
+      this.$emit("selectSection", null);
       if (progress >= 1) {
         progress = 1;
         this.timeline.progress(progress);
