@@ -76,7 +76,7 @@ const actions = {
         question
       );
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   },
   async listenQuestions({ commit, state }, sectionId) {
