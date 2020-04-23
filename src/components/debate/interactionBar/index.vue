@@ -29,7 +29,6 @@
       v-show="showModalInteract"
       :debate-name="debateName"
       modal-title="Posez votre question"
-      :showFooter="true"
       @closeModal="closeModal('showModalInteract')"
     >
       <question-modal-template />

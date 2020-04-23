@@ -14,14 +14,19 @@
             :debateDuration="debate.debateInformations.duration"
             :startedAt="debate.startedAt"
             @selectSection="selectSection"
+            @debateEnded="onDebateEnd"
           />
         </div>
         <p class="sectionTitle">
-          {{ actualSectionSelected.name }}
-          <button @click="scrollToBottom">scroll bot</button>
+          <span v-if="!debateEnded || !onCurrent">{{
+            actualSectionSelected.name
+          }}</span>
         </p>
         <div class="sectionContainer" ref="sectionContainer">
+          <debate-finish v-if="debateEnded && onCurrent" />
+          <not-started v-if="!isStarted" />
           <liveQuestions
+            v-if="(!debateEnded || !onCurrent) && isStarted"
             :section-id="actualSectionSelected.uid"
             :sectionQuestions="actualSectionSelected.questions"
             @scrollToBottom="scrollToBottom"
@@ -29,7 +34,7 @@
         </div>
         <interactionBar
           :debate-name="debate.debateInformations.name"
-          :debateEnded="isFinish"
+          :debateEnded="debateEnded || !isStarted"
         />
         <debateInformations
           :debateInformations="debate.debateInformations"
@@ -44,6 +49,8 @@
 import { initHeader } from "@/mixins/setHeader";
 import { mapGetters } from "vuex";
 import debateInformations from "@/components/debate/debateInformations/index";
+import debateFinish from "@/components/debate/debateFinish";
+import notStarted from "@/components/debate/notStarted";
 import liveQuestions from "@/components/debate/liveQuestions/index";
 import interactionBar from "@/components/debate/interactionBar/index";
 import timers from "@/components/debate/timers/index";
@@ -61,12 +68,15 @@ export default {
     timeline,
     liveQuestions,
     interactionBar,
-    circleLoader
+    circleLoader,
+    debateFinish,
+    notStarted
   },
   props: ["debateId"],
   data() {
     return {
       debateIsLoad: false,
+      debateEnded: false,
       selectSectionNumber: null
     };
   },
@@ -97,16 +107,18 @@ export default {
       }
       return this.actualSection;
     },
-    isFinish() {
+    isStarted() {
       let startedDate = new Date(this.debate.startedAt.seconds * 1000); // date object
       let actualDate = new Date(); // date object
 
       const currentTime = Math.trunc(
         (actualDate.getTime() - startedDate.getTime()) / 1000
       );
-
       let time = parseInt(currentTime / 60);
-      return time > this.debate.debateInformations.duration;
+      return time > 0;
+    },
+    onCurrent() {
+      return this.selectSectionNumber === null;
     }
   },
   beforeDestroy() {
@@ -124,6 +136,9 @@ export default {
     },
     selectSection(sectionNumber) {
       this.selectSectionNumber = sectionNumber;
+    },
+    onDebateEnd() {
+      this.debateEnded = true;
     }
   },
   watch: {

@@ -9,7 +9,8 @@ import {
   getDebatersProfil,
   getDebateSections,
   subscribeToChange,
-  unsubscribeToChange
+  unsubscribeToChange,
+  addDebateSectionQuestion
 } from "@/firebase/db/debatesDb";
 import { subscribeQuestionsChange } from "@/firebase/db/debateSectionsQuestionsDb";
 
@@ -55,6 +56,28 @@ const actions = {
   async getDebateSections({ commit }, debate) {
     const sections = await getDebateSections(debate.uid);
     commit(SET_DEBATE_SECTIONS, sections);
+  },
+  async sendQuestion({ state, rootState }, questionName) {
+    const actualSection = state.sections.find(
+      item => item.order === state.actualSection
+    );
+
+    const question = {
+      name: questionName,
+      author: rootState.user.userInfo.firstName,
+      validate: false,
+      validateDate: Date.now()
+    };
+
+    try {
+      await addDebateSectionQuestion(
+        state.debateInformations.uid,
+        actualSection.uid,
+        question
+      );
+    } catch (e) {
+      console.log(e);
+    }
   },
   async listenQuestions({ commit, state }, sectionId) {
     if (state.sectionsQuestionsSubscriber === null) {

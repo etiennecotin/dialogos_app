@@ -69,7 +69,8 @@ export default {
   computed: {
     prettyMinutes() {
       let time = parseInt(this.counter.currentTime / 60);
-      if (time > this.debateDuration) {
+      if (time >= this.debateDuration) {
+        this.$emit("debateEnded");
         return this.debateDuration;
       } else {
         return time < 0 ? 0 : time;

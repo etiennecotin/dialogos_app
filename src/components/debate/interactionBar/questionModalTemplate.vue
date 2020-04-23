@@ -1,31 +1,35 @@
 <template>
   <div>
-    <!--    <modal-->
-    <!--      v-show="showModalInteract"-->
-    <!--      :debate-name="debateName"-->
-    <!--      modal-title="Posez votre question"-->
-    <!--      :showFooter="true"-->
-    <!--      @closeModal="closeModal('showModalInteract')"-->
-    <!--    >-->
     <textareaInput @inputChange="value => (question = value)" />
-    <!--    </modal>-->
+    <submitButton :enableSubmit="activeSubmit" @submit="submitQuestion" />
   </div>
 </template>
 
 <script>
 import textareaInput from "@/components/generic/inputs/textareaInput";
+import submitButton from "@/components/generic/modal/submitButton";
 // import modal from "@/components/generic/modal/index";
 
 export default {
   name: "questionModalTemplate",
   components: {
-    // modal,
-    textareaInput
+    textareaInput,
+    submitButton
   },
   data() {
     return {
       question: ""
     };
+  },
+  computed: {
+    activeSubmit() {
+      return this.question.length > 0;
+    }
+  },
+  methods: {
+    submitQuestion() {
+      this.$store.dispatch("sendQuestion", this.question);
+    }
   }
 };
 </script>

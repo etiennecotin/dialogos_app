@@ -46,6 +46,19 @@ const getDebateSectionQuestions = async (debateUid, sectionUid) => {
   });
 };
 
+export const addDebateSectionQuestion = async (
+  debateUid,
+  sectionUid,
+  question
+) => {
+  const debateDoc = await getDebateDoc(debateUid);
+  return debateDoc
+    .collection("sections")
+    .doc(sectionUid)
+    .collection("questions")
+    .add(question);
+};
+
 export const getDebatersProfil = async debatersIdArray => {
   return await Promise.all(
     debatersIdArray.map(async debaterId => {

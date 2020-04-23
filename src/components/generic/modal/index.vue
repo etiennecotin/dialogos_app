@@ -11,13 +11,9 @@
           <h2>{{ modalTitle }}</h2>
         </div>
         <div class="modal-body">
-          <slot>
+          <slot @test="test">
             <p>Your custom body</p>
           </slot>
-        </div>
-        <div v-if="showFooter" class="modal-footer">
-          <circleArrowLight />
-          <p class="validation-text">Appuyer pour envoyer</p>
         </div>
       </div>
     </div>
@@ -26,15 +22,13 @@
 
 <script>
 import linearCircleBackArrow from "@/components/icons/linearCircleBackArrow";
-import circleArrowLight from "@/components/icons/circleArrowLight";
 import timers from "@/components/debate/timers/index";
 
 export default {
   name: "modal",
   components: {
     linearCircleBackArrow,
-    timers,
-    circleArrowLight
+    timers
   },
   props: {
     modalTitle: {
@@ -43,10 +37,6 @@ export default {
     },
     debateName: {
       type: String
-    },
-    showFooter: {
-      type: Boolean,
-      default: false
     }
   },
   methods: {
@@ -102,14 +92,6 @@ export default {
     }
     .modal-default-button {
       float: right;
-    }
-    .modal-footer {
-      margin-top: 20%;
-      display: flex;
-      align-items: center;
-      .validation-text {
-        margin-left: 20px;
-      }
     }
   }
 }
