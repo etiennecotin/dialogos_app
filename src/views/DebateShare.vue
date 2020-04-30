@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { VanillaQR } from "@/assets/jsLib/vanillaQR.min";
+import { VanillaQR } from "@/assets/jsLib/vanillaQR";
 export default {
   name: "DebateShare",
   props: ["debateId"],
@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     generateQrCode() {
-      const url = this.$router.resolve({ name: 'debate', params: { id: this.debateId } })
+      const url = this.$router.resolve({ name: 'debate', params: { id: this.debateId } });
       const qr = new VanillaQR({
         url: url.href,
         size: 280,
