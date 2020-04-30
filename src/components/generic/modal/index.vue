@@ -7,11 +7,11 @@
             <linearCircleBackArrow @click.native="closeModal" class="go-back" />
             <h1>{{ debateName }}</h1>
           </header>
-          <timers class="timers" />
-          <h2>{{ modalTitle }}</h2>
+          <timers v-if="showTimer" class="timers" />
+          <h2 v-if="modalTitle">{{ modalTitle }}</h2>
         </div>
         <div class="modal-body">
-          <slot @test="test">
+          <slot>
             <p>Your custom body</p>
           </slot>
         </div>
@@ -33,10 +33,14 @@ export default {
   props: {
     modalTitle: {
       type: String,
-      default: "Choose a title"
+      default: ""
     },
     debateName: {
       type: String
+    },
+    showTimer: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -61,6 +65,8 @@ export default {
     padding: 20px 30px;
     transition: all 0.3s ease;
     font-family: Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
     .modal-header {
       header {
         display: flex;
@@ -88,7 +94,8 @@ export default {
       }
     }
     .modal-body {
-      margin: 20px 0;
+      padding: 20px 0;
+      height: 100%;
     }
     .modal-default-button {
       float: right;

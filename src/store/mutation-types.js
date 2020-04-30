@@ -4,6 +4,7 @@ export const SET_USER_DATA = "SET_USER_DATA";
 export const LOGOUT = "LOGOUT";
 export const SET_PROFIL_PICTURE = "SET_PROFIL_PICTURE";
 export const SET_UPLOAD_PICTURE = "SET_UPLOAD_PICTURE";
+export const SET_ON_DEBATE = "SET_ON_DEBATE";
 
 // main app
 export const SET_APP_READY = "SET_APP_READY";

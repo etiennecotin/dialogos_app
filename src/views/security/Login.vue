@@ -11,28 +11,59 @@
     />
 
     <NextSolidButton @click.native="checkEmail" />
+
+    <div class="bottom-action">
+      <joinDebateButton
+        content="Rejoindre un débat"
+        @click.native="openJoinDebate"
+      />
+    </div>
+
+    <modal
+      v-show="showModalJoinDebate"
+      debate-name="Rejoindre un débat"
+      @closeModal="closeModal"
+    >
+      <join-debate-template />
+    </modal>
   </div>
 </template>
 
 <script>
 import NextSolidButton from "@/components/generic/buttons/nextSolidButton";
 import InputText from "@/components/generic/inputs/textInput";
+import joinDebateButton from "@/components/generic/buttons/bottomButton";
+import modal from "@/components/generic/modal/index";
+import joinDebateTemplate from "@/components/generic/modal/templates/joinDebateTemplate";
 
 export default {
   name: "Login",
   components: {
     NextSolidButton,
-    InputText
+    InputText,
+    joinDebateButton,
+    modal,
+    joinDebateTemplate
   },
   data() {
     return {
-      email: ""
+      email: "",
+      showModalJoinDebate: false
     };
   },
   methods: {
+    openJoinDebate() {
+      this.showModalJoinDebate = true;
+    },
+    closeModal() {
+      this.showModalJoinDebate = false;
+    },
     async checkEmail() {
       try {
-        const userExist = await this.$store.dispatch("checkUserExist", this.email);
+        const userExist = await this.$store.dispatch(
+          "checkUserExist",
+          this.email
+        );
         if (userExist) {
           this.$router.push({ name: "loginPaswword" });
         } else {
@@ -62,6 +93,12 @@ export default {
     letter-spacing: -1px;
     color: $yellow;
     font-weight: bold;
+  }
+  .bottom-action {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>

@@ -14,6 +14,18 @@
         />
       </router-link>
       <hr />
+      <router-link
+        v-if="inDebate"
+        :to="{ name: 'debate', params: { uid: inDebate.actualDebateId } }"
+        class="nav-link"
+        @click.native="iconClicked"
+      >
+        <div class="on-live">
+          <div class="live-point"></div>
+          <span class="live-text">Live</span>
+        </div>
+      </router-link>
+      <div class="point" v-if="inDebate"></div>
       <router-link to="/" class="nav-link" @click.native="iconClicked">
         <HomeIcon />
       </router-link>
@@ -64,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["profilePicture", "userInfos"]),
+    ...mapGetters(["profilePicture", "userInfos", "inDebate"]),
     alternativePicture() {
       if (this.userInfo) {
         return this.userInfos.email.charAt(0);
@@ -106,6 +118,7 @@ export default {
     }
     .nav-link {
       margin: 15px 0;
+      text-decoration: none;
       &.profil-picture {
         width: 50px;
         height: 50px;
@@ -125,6 +138,22 @@ export default {
           height: 100%;
           object-fit: cover;
           border-radius: 50px;
+        }
+      }
+      .on-live {
+        display: flex;
+        align-items: center;
+        .live-point {
+          width: 10px;
+          height: 10px;
+          background-color: $red;
+          border-radius: 10px;
+          margin-right: 7px;
+        }
+        .live-text {
+          color: $white;
+          font-size: 18px;
+          font-weight: bold;
         }
       }
     }

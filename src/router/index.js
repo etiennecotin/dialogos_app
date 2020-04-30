@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store";
 import { onAuthStateChanged } from "@/firebase/db/usersDb";
+import { getItemLocalStorage } from "@/helpers/localStorageHelper";
+import { checkDateDifference } from "@/helpers/dateHelper";
 
 Vue.use(VueRouter);
 
@@ -13,7 +15,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: lazyLoad('Home'),
+    component: lazyLoad("Home"),
     meta: {
       pageTitle: "Dialogos",
       requiresAuth: true
@@ -22,7 +24,16 @@ const routes = [
   {
     path: "/debate/:uid",
     name: "debate",
-    component: lazyLoad('Debate'),
+    component: lazyLoad("Debate"),
+    meta: {
+      requiresAuth: true
+    },
+    props: route => ({ debateId: route.params.uid })
+  },
+  {
+    path: "/debate/:uid/share",
+    name: "debateShare",
+    component: lazyLoad("DebateShare"),
     meta: {
       requiresAuth: true
     },
@@ -31,7 +42,7 @@ const routes = [
   {
     path: "/calendar",
     name: "calendar",
-    component: lazyLoad('Calendar'),
+    component: lazyLoad("Calendar"),
     meta: {
       pageTitle: "Calendrier",
       requiresAuth: true
@@ -40,7 +51,7 @@ const routes = [
   {
     path: "/search",
     name: "search",
-    component: lazyLoad('Search'),
+    component: lazyLoad("Search"),
     meta: {
       pageTitle: "Recherche",
       requiresAuth: true
@@ -49,7 +60,7 @@ const routes = [
   {
     path: "/profil",
     name: "profil",
-    component: lazyLoad('Profil'),
+    component: lazyLoad("Profil"),
     meta: {
       pageTitle: "Mon profil",
       requiresAuth: true
@@ -58,7 +69,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: lazyLoad('security/Login'),
+    component: lazyLoad("security/Login"),
     meta: {
       anonymous: false
     }
@@ -66,7 +77,7 @@ const routes = [
   {
     path: "/login/password",
     name: "loginPaswword",
-    component: lazyLoad('security/LoginPassword'),
+    component: lazyLoad("security/LoginPassword"),
     meta: {
       requiresAuth: false
     }
@@ -74,7 +85,7 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: lazyLoad('security/Register'),
+    component: lazyLoad("security/Register"),
     meta: {
       requiresAuth: false
     }
@@ -85,7 +96,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: lazyLoad('security/Logout'),
+    component: lazyLoad("security/Logout"),
     meta: { requiresAuth: true }
   },
   {
@@ -118,6 +129,16 @@ router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!isLogged && !currentUser) {
       next({ name: "login" });
+      return;
+    }
+    try {
+      const actualDebate = getItemLocalStorage("actualDebate");
+      const currentTime = checkDateDifference(actualDebate.startedAt);
+      if (currentTime < actualDebate.duration && currentTime > 0) {
+        await store.dispatch("setActualDebate", actualDebate);
+      }
+    } catch {
+      next();
       return;
     }
     next();

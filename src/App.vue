@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <AppHeader v-if="isLogged" />
-    <router-view v-show="isAppReady" />
+    <transition name="fade">
+      <router-view v-show="isAppReady" />
+    </transition>
   </div>
 </template>
 
@@ -37,6 +39,13 @@ export default {
 </script>
 
 <style lang="scss">
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 #app {
   font-family: $sans-serif-font;
   -webkit-font-smoothing: antialiased;

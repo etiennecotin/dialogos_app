@@ -58,6 +58,7 @@ import timeline from "@/components/debate/timeline/index";
 import { gsap } from "gsap";
 import ScrollToPlugin from "gsap/ScrollToPlugin";
 import circleLoader from "@/components/generic/loader/circleLoader";
+import { checkDateDifference } from "@/helpers/dateHelper";
 
 export default {
   name: "Debate",
@@ -83,10 +84,12 @@ export default {
   async created() {
     gsap.registerPlugin(ScrollToPlugin);
     try {
-      const debateName = await this.$store.dispatch("getDebate", this.debateId);
+      const debate = await this.$store.dispatch("getDebate", this.debateId);
+
       //wait store is set
       this.debateIsLoad = true;
-      this.setHeader(debateName, false);
+      this.setHeader(debate.name, false);
+      this.setActualDebate(debate);
     } catch (e) {
       // console.log(e);
     }
@@ -125,6 +128,16 @@ export default {
     this.$store.dispatch("unsubscribeDebate");
   },
   methods: {
+    setActualDebate(debate) {
+      const currentTime = checkDateDifference(debate.startedAt);
+      if (currentTime < debate.duration && currentTime > 0) {
+        this.$store.dispatch("setActualDebate", {
+          actualDebateId: debate.uid,
+          startedAt: debate.startedAt,
+          duration: debate.duration
+        });
+      }
+    },
     scrollToBottom() {
       const liveQuestions = this.$refs.sectionContainer;
       if (liveQuestions) {

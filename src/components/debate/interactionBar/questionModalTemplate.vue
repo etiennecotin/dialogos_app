@@ -28,7 +28,12 @@ export default {
   },
   methods: {
     submitQuestion() {
-      this.$store.dispatch("sendQuestion", this.question);
+      // TOTO ajouter des intéraction à l'envoi et un message deconfirmation
+      try {
+        this.$store.dispatch("sendQuestion", this.question);
+      } catch (e) {
+        // console.log(e);
+      }
     }
   }
 };

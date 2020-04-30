@@ -1,39 +1,36 @@
 <template>
-  <div class="timeLineContainer" ref="timeLine">
-    <div class="proxyTimeline" ref="proxyTimeline"></div>
-    <div class="timeLine" ref="line">
-      <hr class="line" />
-      <timePoint
-        v-for="(point, index) in points"
-        :time="point.time"
-        :position="point.position"
-        :key="index"
-      />
+  <div class="timeline-section">
+    <div class="timeLineContainer" ref="timeLine">
+      <div class="proxyTimeline" ref="proxyTimeline"></div>
+      <div class="timeLine" ref="line">
+        <hr class="line" />
+        <timePoint
+          v-for="(point, index) in points"
+          :time="point.time"
+          :position="point.position"
+          :key="index"
+        />
+      </div>
+      <p class="actualTime">
+        <span class="hours">{{ prettyMinutes }}</span
+        >:<span class="seconds">{{ prettySeconds }}</span>
+      </p>
     </div>
-    <button
-      v-if="!counter.onCurrentTime"
-      @click="current"
-      style="top: -20px;
-    position: absolute;"
-    >
-      go to current
-    </button>
-    <p class="actualTime">
-      <span class="hours">{{ prettyMinutes }}</span
-      >:<span class="seconds">{{ prettySeconds }}</span>
-    </p>
+    <direct :on-current="counter.onCurrentTime" @click.native="current" />
   </div>
 </template>
 
 <script>
 import timePoint from "@/components/debate/timeline/timePoint";
+import direct from "@/components/debate/timeline/direct";
 import { gsap, Linear } from "gsap";
 import Draggable from "gsap/Draggable";
 
 export default {
   name: "timeline",
   components: {
-    timePoint
+    timePoint,
+    direct
   },
   props: {
     sections: {
@@ -244,37 +241,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.timeLineContainer {
-  margin: 10px 0;
-  height: 40px;
+.timeline-section {
   display: flex;
-  align-items: center;
-  position: relative;
-  justify-content: center;
-  .actualTime {
-    z-index: 50;
-    background-color: $lightBlack;
-    border-radius: 56px;
-    padding: 6px;
-    color: $yellow;
-    .hours {
-      font-size: 23px;
-      font-weight: bold;
-    }
-    .seconds {
-      font-size: 15px;
-    }
-  }
-  .timeLine {
+  flex-direction: column;
+  margin: 10px 0;
+  .timeLineContainer {
+    margin: 5px 0;
+    height: 40px;
     display: flex;
     align-items: center;
-    width: 100%;
-    position: absolute;
-    left: 50%;
-    .line {
+    position: relative;
+    justify-content: center;
+    .actualTime {
+      z-index: 50;
+      background-color: $lightBlack;
+      border-radius: 56px;
+      padding: 6px;
+      color: $yellow;
+      .hours {
+        font-size: 23px;
+        font-weight: bold;
+      }
+      .seconds {
+        font-size: 15px;
+      }
+    }
+    .timeLine {
+      display: flex;
+      align-items: center;
       width: 100%;
       position: absolute;
-      z-index: 20;
+      left: 50%;
+      .line {
+        width: 100%;
+        position: absolute;
+        z-index: 20;
+      }
     }
   }
 }

@@ -47,7 +47,7 @@ const actions = {
     debate.debaters = await getDebatersProfil(debate.debaters);
     commit(SET_DEBATE, debate);
     await dispatch("getDebateSections", debate);
-    return debate.name;
+    return debate;
   },
   async unsubscribeDebate({ state }) {
     // console.log("unsubscribe");
@@ -69,15 +69,11 @@ const actions = {
       validateDate: Date.now()
     };
 
-    try {
       await addDebateSectionQuestion(
         state.debateInformations.uid,
         actualSection.uid,
         question
       );
-    } catch (e) {
-      // console.log(e);
-    }
   },
   async listenQuestions({ commit, state }, sectionId) {
     if (state.sectionsQuestionsSubscriber === null) {

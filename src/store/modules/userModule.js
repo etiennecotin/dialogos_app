@@ -3,7 +3,8 @@ import {
   SET_USER_DATA,
   LOGOUT,
   SET_PROFIL_PICTURE,
-  SET_UPLOAD_PICTURE
+  SET_UPLOAD_PICTURE,
+  SET_ON_DEBATE
 } from "../mutation-types";
 import {
   addUserInfo,
@@ -16,6 +17,10 @@ import {
   addUserProfilPicture,
   updateUserInfo
 } from "@/firebase/db/usersDb";
+import {
+  removeItemLocalStorage,
+  setItemLocalStorage
+} from "@/helpers/localStorageHelper";
 
 const state = {
   loginForm: {
@@ -24,7 +29,7 @@ const state = {
   logged: false,
   userInfo: {},
   uploadFile: null,
-  inDebate: false // TODO map to local storage for retriveaw debate on open app
+  inDebateId: null // TODO map to local storage for retriveaw debate on open app
 };
 
 // getters
@@ -34,7 +39,8 @@ const getters = {
   isLogged: state => state.logged,
   uploadAdvancement: state => Math.trunc(state.uploadFile),
   profilePicture: state => state.userInfo.profilePicture,
-  userInfos: state => state.userInfo
+  userInfos: state => state.userInfo,
+  inDebate: state => state.inDebateId
 };
 // actions
 const actions = {
@@ -95,6 +101,15 @@ const actions = {
     });
     commit(SET_PROFIL_PICTURE, imageUrl);
     return true;
+  },
+  async setActualDebate({ commit }, debateInfo) {
+    // TODO récupérer les infos du débat pour actualiser le localstorage en cas de changement
+    setItemLocalStorage("actualDebate", debateInfo);
+    commit(SET_ON_DEBATE, debateInfo);
+  },
+  async leaveActualDebate({ commit }) {
+    removeItemLocalStorage("actualDebate");
+    commit(SET_ON_DEBATE, null);
   }
 };
 
@@ -115,6 +130,9 @@ const mutations = {
   },
   [SET_UPLOAD_PICTURE](state, percentage) {
     state.uploadFile = percentage;
+  },
+  [SET_ON_DEBATE](state, debateId) {
+    state.inDebateId = debateId;
   },
   [LOGOUT](state) {
     state.logged = false;
