@@ -17,7 +17,10 @@ export default {
   },
   methods: {
     generateQrCode() {
-      const url = this.$router.resolve({ name: 'debate', params: { id: this.debateId } });
+      const url = this.$router.resolve({
+        name: "debate",
+        params: { id: this.debateId }
+      });
       const qr = new VanillaQR({
         url: url.href,
         size: 280,
