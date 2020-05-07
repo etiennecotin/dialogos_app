@@ -22,6 +22,11 @@ export default {
   name: "debateItem",
   components: {
     circleArrowGoTo
+  },
+  props: {
+    debate: {
+      type: Object
+    }
   }
 };
 </script>

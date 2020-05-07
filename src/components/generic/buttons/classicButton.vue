@@ -1,5 +1,5 @@
 <template>
-  <button class="classic-button" :disabled="disabled">
+  <button class="classic-button" :disabled="disabled" :class="{linear: linear}">
     {{ content }}
   </button>
 </template>
@@ -11,6 +11,10 @@ export default {
     content: {
       type: String,
       default: "Your text here"
+    },
+    linear: {
+      type: Boolean,
+      default: false
     },
     disabled: {
       type: Boolean
@@ -32,6 +36,11 @@ export default {
   color: $lightBlack;
   border: none;
   outline: none;
+  &.linear {
+    border: 1px solid $yellow;
+    background-color: transparent;
+    color: $yellow;
+  }
   &:hover {
     cursor: pointer;
   }

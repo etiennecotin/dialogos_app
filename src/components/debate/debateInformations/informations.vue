@@ -1,5 +1,10 @@
 <template>
   <div id="informations">
+    <classic-button
+      content="Quitter le débat"
+      :linear="true"
+      class="leave-debate"
+    />
     <h1>{{ debateName }}</h1>
     <h2>Débatteurs</h2>
     <debaterList :debaterList="debaters" />
@@ -10,10 +15,12 @@
 
 <script>
 import debaterList from "@/components/debate/debateInformations/debaterList";
+import classicButton from "@/components/generic/buttons/classicButton";
 export default {
   name: "informations",
   components: {
-    debaterList
+    debaterList,
+    classicButton
   },
   props: {
     debateName: {
@@ -41,6 +48,9 @@ export default {
     height: calc(74vh - 80px);
     overflow: auto;
     position: relative;
+  }
+  .leave-debate {
+    margin-bottom: 20px;
   }
   h1 {
     text-align: left;

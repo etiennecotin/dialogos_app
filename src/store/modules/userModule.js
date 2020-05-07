@@ -4,7 +4,8 @@ import {
   LOGOUT,
   SET_PROFIL_PICTURE,
   SET_UPLOAD_PICTURE,
-  SET_ON_DEBATE
+  SET_ON_DEBATE,
+  SET_NEXT_DEBATE
 } from "../mutation-types";
 import {
   addUserInfo,
@@ -17,6 +18,7 @@ import {
   addUserProfilPicture,
   updateUserInfo
 } from "@/firebase/db/usersDb";
+import { getUserDebates } from "@/firebase/db/debateEnrolmentsDb";
 import {
   removeItemLocalStorage,
   setItemLocalStorage
@@ -28,6 +30,7 @@ const state = {
   },
   logged: false,
   userInfo: {},
+  nextDebates: [],
   uploadFile: null,
   inDebateId: null // TODO map to local storage for retriveaw debate on open app
 };
@@ -40,7 +43,8 @@ const getters = {
   uploadAdvancement: state => Math.trunc(state.uploadFile),
   profilePicture: state => state.userInfo.profilePicture,
   userInfos: state => state.userInfo,
-  inDebate: state => state.inDebateId
+  inDebate: state => state.inDebateId,
+  nextDebatesCollection: state => state.nextDebates
 };
 // actions
 const actions = {
@@ -110,6 +114,10 @@ const actions = {
   async leaveActualDebate({ commit }) {
     removeItemLocalStorage("actualDebate");
     commit(SET_ON_DEBATE, null);
+  },
+  async getUserNextDebate({ commit, state }) {
+    const nextDebates = await getUserDebates(state.userInfo.uid);
+    commit(SET_NEXT_DEBATE, nextDebates);
   }
 };
 
@@ -133,6 +141,9 @@ const mutations = {
   },
   [SET_ON_DEBATE](state, debateId) {
     state.inDebateId = debateId;
+  },
+  [SET_NEXT_DEBATE](state, nextDebates) {
+    state.nextDebates = nextDebates;
   },
   [LOGOUT](state) {
     state.logged = false;

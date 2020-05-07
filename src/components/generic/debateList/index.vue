@@ -1,7 +1,11 @@
 <template>
   <div class="debate-list">
-    <debateItem />
-    <debateItem />
+    <debateItem
+      v-for="(debate, index) in debatesList"
+      :key="index"
+      :debate="debate"
+    />
+<!--    <debateItem />-->
   </div>
 </template>
 
@@ -11,6 +15,11 @@ export default {
   name: "debateList",
   components: {
     debateItem
+  },
+  props: {
+    debatesList: {
+      type: Array
+    }
   }
 };
 </script>

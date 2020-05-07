@@ -2,7 +2,7 @@
   <div class="container">
     <p class="upcoming-debates">Vos prochains débats</p>
 
-    <debateList />
+    <debateList :debatesList="nextDebatesCollection" />
 
     <div class="bottom-actions">
       <div class="create-debate">
@@ -37,8 +37,25 @@ export default {
     classicButton,
     bottomButton
   },
+  data() {
+    return {
+      debatesLoaded: false
+    };
+  },
   computed: {
-    ...mapGetters(["inDebate"])
+    ...mapGetters(["inDebate", "nextDebatesCollection", "userInfos"])
+  },
+  methods: {
+    async getNextDebate() {
+      await this.$store.dispatch("getUserNextDebate");
+      this.debatesLoaded = true;
+    }
+  },
+  watch: {
+    userInfos() {
+      //  Wait user infos for get debates
+      this.getNextDebate();
+    }
   }
 };
 </script>
