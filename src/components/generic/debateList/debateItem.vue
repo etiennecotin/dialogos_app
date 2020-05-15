@@ -1,9 +1,9 @@
 <template>
   <div class="debate-item">
     <div class="debate-item-info">
-      <p class="debate-date">5 juin 2020 - 18h</p>
+      <p class="debate-date">{{ debateDate }}</p>
       <p class="debate-name">
-        Intelligence artificielle versus intelligence humaine ?
+        {{ debate.debate.name }}
       </p>
       <p class="info-link">informations</p>
     </div>
@@ -26,6 +26,31 @@ export default {
   props: {
     debate: {
       type: Object
+    }
+  },
+  computed: {
+    debateDate() {
+      const date = this.debate.debate.date.toDate(); // date object
+      const dateTimeFormat = new Intl.DateTimeFormat("fr", {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+      const [
+        { value: day },
+        ,
+        { value: month },
+        ,
+        { value: year },
+        ,
+        { value: hour },
+        ,
+        { value: minute }
+      ] = dateTimeFormat.formatToParts(date);
+
+      return `${day} ${month} ${year} - ${hour}:${minute}`;
     }
   }
 };

@@ -2,7 +2,7 @@
   <div class="debater">
     <router-link to="/profil" class="profil-link">
       <div class="profil-picture">
-        <img :src="debater.profilPicture" :alt="fullName" />
+        <img :src="debater.profilePicture" :alt="fullName" />
       </div>
       {{ debater.firstName }}
     </router-link>
@@ -43,6 +43,7 @@ export default {
     }
     img {
       width: 50px;
+      height: 50px;
       border-radius: 50px;
       object-fit: cover;
     }
