@@ -95,7 +95,8 @@ export default {
 <style lang="scss" scoped>
 #navbar {
   background-color: $black;
-  height: 100vh;
+  height: 100%;
+  position: absolute;
   width: 70px;
   padding: 60px 8px 15px 8px;
   transition: transform 0.3s;

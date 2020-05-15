@@ -68,6 +68,7 @@ export default {
 <style lang="scss" scoped>
 #menuBurger {
   display: flex;
+  width: 70px;
   .burgerMenuIcon {
     z-index: 999;
     position: absolute;

@@ -52,8 +52,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: $white;
-  height: 100vh;
-  max-height: 100vh;
+  height: 100%;
+  max-height: 100%;
   overflow: hidden;
   position: relative;
 }
