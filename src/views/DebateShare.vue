@@ -17,12 +17,9 @@ export default {
   },
   methods: {
     generateQrCode() {
-      const url = this.$router.resolve({
-        name: "debate",
-        params: { id: this.debateId }
-      });
+      const url = `${window.location.origin}/debate/${this.debateId}`;
       const qr = new VanillaQR({
-        url: url.href,
+        url: url,
         size: 280,
         colorLight: "#292929",
         colorDark: "#D7BB61",
