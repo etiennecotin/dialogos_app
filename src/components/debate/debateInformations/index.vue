@@ -7,7 +7,7 @@
     <informations
       :debateName="debateInformations.name"
       :description="debateInformations.description"
-      :debaters="debateInformations.debaters"
+      :debaters="debaters"
       @stopParentDrag="stopDrag"
     />
   </div>
@@ -29,6 +29,9 @@ export default {
   props: {
     debateInformations: {
       type: Object
+    },
+    debaters: {
+      type: Array
     }
   },
   data() {

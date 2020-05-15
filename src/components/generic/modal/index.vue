@@ -8,7 +8,7 @@
             <h1>{{ debateName }}</h1>
           </header>
           <timers v-if="showTimer" class="timers" />
-          <h2 v-if="modalTitle">{{ modalTitle }}</h2>
+          <h2 v-if="modalTitle" class="modal-title">{{ modalTitle }}</h2>
         </div>
         <div class="modal-body">
           <slot>
@@ -86,11 +86,13 @@ export default {
       .timers {
         margin: 30px 0;
       }
-      h2 {
+      .modal-title {
         font-size: 18px;
         font-weight: bold;
         text-align: left;
         text-decoration: underline;
+        margin-top: 20px;
+        margin-bottom: 10px;
       }
     }
     .modal-body {

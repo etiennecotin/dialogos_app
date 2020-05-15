@@ -37,7 +37,7 @@
     <modal
       v-show="showModalInfos"
       :debate-name="debateName"
-      modal-title="Questions du public"
+      modal-title="Informations sur la section"
       @closeModal="closeModal('showModalInfos')"
     >
       <debate-infos-modal-template />

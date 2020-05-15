@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <p>Jean Bon</p>
-      <p>Présentation de Charle Henri sur les cœurs assistés mécaniquement</p>
+      <p>Section à venir</p>
+<!--      <p>Présentation de Charle Henri sur les cœurs assistés mécaniquement</p>-->
     </div>
   </div>
 </template>

@@ -38,6 +38,7 @@
         />
         <debateInformations
           :debateInformations="debate.debateInformations"
+          :debaters="debate.debaters"
           v-if="debateIsLoad"
         />
       </div>
