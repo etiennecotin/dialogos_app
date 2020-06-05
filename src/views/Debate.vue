@@ -175,7 +175,7 @@ export default {
 }
 
 .container {
-  height: calc(100vh - 140px);
+  height: calc(100% - 140px);
   .debateLoader {
     display: flex;
     justify-content: center;

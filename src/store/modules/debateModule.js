@@ -65,7 +65,7 @@ const actions = {
     const question = {
       name: questionName,
       author: rootState.user.userInfo.firstName,
-      validate: false,
+      validate: true,
       validateDate: Date.now()
     };
 
